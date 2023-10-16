@@ -1,0 +1,191 @@
+.v-btn.v-size--large.primary:not(.v-btn--fab) {
+  padding: 14px 62px 14px 62px !important;
+  box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1) !important;
+}
+.v-btn.v-size--large.primary:not(.v-btn--fab):hover {
+  background-color: var(--v-primary-darken3) !important;
+}
+.v-btn.v-size--large.primary:not(.v-btn--fab):active {
+  background-color: var(--v-primary-darken2) !important;
+}
+.v-btn.v-size--large.primary:not(.v-btn--fab):focus {
+  background-color: var(--v-mintegra-base) !important;
+}
+.v-btn.v-size--large.primary:not(.v-btn--fab) i {
+  font-size: 24px;
+  line-height: 40px;
+}
+
+.v-btn.v-size--default.primary:not(.v-btn--fab) {
+  padding: 10px 24px 10px 24px !important;
+  box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1) !important;
+}
+.v-btn.v-size--default.primary:not(.v-btn--fab):hover {
+  background-color: var(--v-primary-darken3) !important;
+}
+.v-btn.v-size--default.primary:not(.v-btn--fab):active {
+  background-color: var(--v-primary-darken2) !important;
+}
+.v-btn.v-size--default.primary:not(.v-btn--fab):focus {
+  background-color: var(--v-mintegra-base) !important;
+}
+.v-btn.v-size--small.primary:not(.v-btn--fab) {
+  padding: 6px 22px 6px 22px !important;
+  box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1) !important;
+}
+.v-btn.v-size--small.primary:not(.v-btn--fab):hover {
+  background-color: var(--v-primary-darken3) !important;
+}
+.v-btn.v-size--small.primary:not(.v-btn--fab):active {
+  background-color: var(--v-primary-darken2) !important;
+}
+.v-btn.v-size--small.primary:not(.v-btn--fab):focus {
+  background-color: var(--v-mintegra-base) !important;
+}
+.v-btn.v-size--small.primary:not(.v-btn--fab) i {
+  font-size: 18px;
+}
+
+.secondary {
+  color: var(--v-primary-base) !important;
+}
+
+.v-btn.v-size--large.secondary:not(.v-btn--fab) {
+  padding: 14px 62px 14px 62px !important;
+  border: 0.8px solid var(--v-stroke-lighten5) !important;
+  color: var(--v-primary-base) !important;
+  box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1) !important;
+}
+.v-btn.v-size--large.secondary:not(.v-btn--fab):hover {
+  color: var(--v-primary-darken3) !important;
+}
+.v-btn.v-size--large.secondary:not(.v-btn--fab):active {
+  background-color: var(--v-primary-lighten5) !important;
+  color: var(--v-primary-darken2) !important;
+}
+.v-btn.v-size--large.secondary:not(.v-btn--fab):focus {
+  color: var(--v-primary-base) !important;
+  border: 0.8px solid var(--stroke-base) !important;
+  box-shadow: 0px 0px 0px 1px var(--stroke-base) !important;
+}
+.v-btn.v-size--large.secondary:not(.v-btn--fab) i {
+  font-size: 24px !important;
+  line-height: 40px !important;
+}
+
+.v-btn.v-size--default.secondary:not(.v-btn--fab) {
+  padding: 10px 24px 10px 24px !important;
+  border: 0.8px solid var(--v-stroke-lighten5) !important;
+  color: var(--v-primary-base) !important;
+  box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1) !important;
+}
+.v-btn.v-size--default.secondary:not(.v-btn--fab):hover {
+  color: var(--v-primary-darken3) !important;
+}
+.v-btn.v-size--default.secondary:not(.v-btn--fab):active {
+  background-color: var(--v-primary-lighten5) !important;
+  color: var(--v-primary-darken2) !important;
+}
+.v-btn.v-size--default.secondary:not(.v-btn--fab):focus {
+  color: var(--v-primary-base) !important;
+  border: 0.8px solid var(--stroke-base) !important;
+  box-shadow: 0px 0px 0px 1px var(--stroke-base) !important;
+}
+.v-btn.v-size--default.secondary:not(.v-btn--fab) i {
+  font-size: !important;
+  line-height: !important;
+}
+
+.v-btn.v-size--small.secondary:not(.v-btn--fab) {
+  padding: 6px 22px 6px 22px !important;
+  border: 0.8px solid var(--v-stroke-lighten5) !important;
+  color: var(--v-primary-base) !important;
+  box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1) !important;
+}
+.v-btn.v-size--small.secondary:not(.v-btn--fab):hover {
+  color: var(--v-primary-darken3) !important;
+}
+.v-btn.v-size--small.secondary:not(.v-btn--fab):active {
+  background-color: var(--v-primary-lighten5) !important;
+  color: var(--v-primary-darken2) !important;
+}
+.v-btn.v-size--small.secondary:not(.v-btn--fab):focus {
+  color: var(--v-primary-base) !important;
+  border: 0.8px solid var(--stroke-base) !important;
+  box-shadow: 0px 0px 0px 1px var(--stroke-base) !important;
+}
+
+.v-btn.v-size--large.tertiary:not(.v-btn--fab) {
+  padding: 14px 62px 14px 62px !important;
+  background-color: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  color: var(--v-primary-base) !important;
+}
+.v-btn.v-size--large.tertiary:not(.v-btn--fab):hover {
+  color: var(--v-primary-darken3) !important;
+}
+.v-btn.v-size--large.tertiary:not(.v-btn--fab):active {
+  background-color: transparent !important;
+  color: var(--v-primary-darken2) !important;
+}
+.v-btn.v-size--large.tertiary:not(.v-btn--fab):focus {
+  background-color: transparent !important;
+  color: var(--v-primary-base) !important;
+}
+.v-btn.v-size--large.tertiary:not(.v-btn--fab) i {
+  font-size: 24px;
+  line-height: 40px;
+}
+
+.v-btn.v-size--default.tertiary:not(.v-btn--fab) {
+  padding: 10px 24px 10px 24px !important;
+  background-color: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  color: var(--v-primary-base) !important;
+}
+.v-btn.v-size--default.tertiary:not(.v-btn--fab):hover {
+  color: var(--v-primary-darken3) !important;
+}
+.v-btn.v-size--default.tertiary:not(.v-btn--fab):active {
+  background-color: transparent !important;
+  color: var(--v-primary-darken2) !important;
+}
+.v-btn.v-size--default.tertiary:not(.v-btn--fab):focus {
+  background-color: transparent !important;
+  color: var(--v-primary-base) !important;
+}
+.v-btn.v-size--small.tertiary:not(.v-btn--fab) {
+  padding: 6px 22px 6px 22px !important;
+  background-color: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  color: var(--v-primary-base) !important;
+}
+.v-btn.v-size--small.tertiary:not(.v-btn--fab):hover {
+  color: var(--v-primary-darken3) !important;
+}
+.v-btn.v-size--small.tertiary:not(.v-btn--fab):active {
+  background-color: transparent !important;
+  color: var(--v-primary-darken2) !important;
+}
+.v-btn.v-size--small.tertiary:not(.v-btn--fab):focus {
+  background-color: transparent !important;
+  color: var(--v-primary-base) !important;
+}
+
+.v-btn.v-size--large.v-btn--disabled {
+  padding: 14px 62px 14px 62px !important;
+}
+.v-btn.v-size--large.v-btn--disabled i {
+  font-size: 24px;
+  line-height: 40px;
+}
+
+.v-btn.v-size--default.v-btn--disabled {
+  padding: 10px 24px 10px 24px !important;
+}
+.v-btn.v-size--small.v-btn--disabled {
+  padding: 6px 22px 6px 22px !important;
+}/*# sourceMappingURL=buttons.css.map */

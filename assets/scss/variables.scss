@@ -1,0 +1,300 @@
+// App common variables
+
+$border-radius-root: 8px;
+// shadows - - - - - - - - - - - - - -
+$shadow-key-ambient: (
+  0: (
+    0px 0px 0px 0px rgba(0, 0, 0, 0),
+  ),
+  1: (
+    0px 0px 0px 0px rgba(0, 0, 0, 0),
+  ),
+  2: (
+    0px 0px 0px 0px rgba(0, 0, 0, 0),
+  ),
+  3: (
+    0px 0px 0px 0px rgba(0, 0, 0, 0),
+  ),
+  4: (
+    0px 0px 0px 0px rgba(0, 0, 0, 0),
+  ),
+);
+$shadow-key-penumbra: (
+  0: (
+    0px 0px 0px 0px rgba(0, 0, 0, 0),
+  ),
+  1: (
+    0px 4px 16px rgba(0, 0, 0, 0.08),
+  ),
+  2: (
+    0px 4px 16px rgba(0, 0, 0, 0.16),
+  ),
+  3: (
+    0px 4px 24px rgba(0, 0, 0, 0.24),
+  ),
+  4: (
+    0px 4px 32px rgba(0, 0, 0, 0.32),
+  ),
+);
+$shadow-raised: 0px 1px 3px 1px rgba(37, 47, 64, 0.15),
+  0px 1px 2px 0px rgba(37, 47, 64, 0.3);
+$shadow-overlay: 0px 2px 3px 0px rgba(37, 47, 64, 0.3),
+  0px 6px 10px 4px rgba(37, 47, 64, 0.15);
+
+// radius - - - - - - - - - - - - - -
+$corner-small: 0.25rem;
+$corner-medium: 0.5rem;
+$corner-large: 1rem;
+$corner-circle: 50%;
+$corner-pill: 625rem;
+
+// elevation - - - - - - - - - - - - - -
+$surface-white: var(--v-white-base);
+$surface-white-hovered: var(--v-white-darken);
+$surface-white-pressed: var(--v-stroke-lighten5);
+$surface-darken: var(--v-white-darken);
+$surface-darken-hovered: var(--v-stroke-lighten5);
+$surface-darken-pressed: var(--v-stroke-lighten3);
+$surface-raised: var(--v-white-base);
+$surface-raised-hovered: var(--v-white-darken1);
+$surface-raised-pressed: var(--v-stroke-lighten5);
+$surface-overlay: var(--v-white-base);
+$surface-overlay-hovered: var(--v-white-darken1);
+$surface-overlay-pressed: var(--v-stroke-lighten5);
+
+// typography - - - - - - - - - - - -
+// $headings: (
+//   'h1': (
+//     'size': 4.143rem,
+//     'weight': 400,
+//     'line-height': 72px,
+//     'font-family': $heading-font-family,
+//   ),
+//   'h2': (
+//     'size': 3.214rem,
+//     'weight': 400,
+//     'line-height': 56px,
+//     'font-family': $heading-font-family,
+//   ),
+//   'h3': (
+//     'size': 2.571rem,
+//     'weight': 400,
+//     'line-height': 54px,
+//     'font-family': $heading-font-family,
+//   ),
+//   'h4': (
+//     'size': 2.286rem,
+//     'weight': 400,
+//     'line-height': 40px,
+//     'font-family': $heading-font-family,
+//   ),
+//   'h5': (
+//     'size': 2rem,
+//     'weight': 400,
+//     'line-height': 20px,
+//     'font-family': $heading-font-family,
+//   ),
+//   'subtitle-1': (
+//     'size': 1.571rem,
+//     'weight': 600,
+//     'line-height': 28px,
+//     'font-family': $body-font-family,
+//   ),
+//   'subtitle-2': (
+//     'size': 1.143rem,
+//     'weight': 400,
+//     'line-height': 24px,
+//     'font-family': $body-font-family,
+//   ),
+//   'body-1': (
+//     'size': 1.143rem,
+//     'weight': 400,
+//     'line-height': 24px,
+//     'font-family': $body-font-family,
+//     'letter-spacing': 0.15px,
+//   ),
+//   'body-2': (
+//     'size': 1rem,
+//     'weight': 400,
+//     'line-height': 20px,
+//     'font-family': $body-font-family,
+//     'letter-spacing': 0.25px,
+//   ),
+//   'button': (
+//     'size': 1.143rem,
+//     'weight': 600,
+//     'line-height': 20px,
+//     'font-family': $body-font-family,
+//     'text-transform': uppercase,
+//   ),
+// );
+
+// general - - - - - - - - - - - - - -
+$border-radius-root: 8px;
+$calendar-event-border-radius: 4px;
+$toolbar-btn-icon-size: '34px';
+
+// cards - - - - - - - - - - - - - - -
+$card-elevation: 1;
+
+// sheets  - - - - - - - - - - - - - -
+$sheet-border-radius: $border-radius-root;
+
+// panels  - - - - - - - - - - - - - -
+$expansion-panel-border-radius: 0;
+$expansion-panel-content-padding: 16px;
+
+// buttons - - - - - - - - - - - - - -
+$btn-text-transform: capitalize;
+$btn-hover-opacity: 0;
+$btn-focus-opacity: 0;
+$btn-active-opacity: 0;
+$btn-sizes: (
+  'large': 48,
+  'default': 40,
+  'small': 32,
+);
+$fab-sizes: (
+  'default': 34,
+);
+
+// icons - - - - - - - - - - - - - - -
+$fab-icon-sizes: (
+  'default': 19,
+);
+
+// Tooltip - - - - - - - - - - - - - - -
+$tooltip-background-color: var(--v-default-text-base);
+
+// Thinner Scrollbar - - - - - - - - - - - - - -
+@mixin thin-scrollbar() {
+  scrollbar-width: thin;
+
+  &::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: #f1f1f1;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: rgb(190, 196, 196, 0.8);
+    border-radius: 4px;
+  }
+
+  &::-webkit-scrollbar-thumb:hover {
+    background: rgb(190, 196, 196);
+  }
+}
+
+// Personalized Scrollbar - - - - - - - - - - - - - -
+@mixin personalized-scrollbar() {
+  &::-webkit-scrollbar {
+    height: 15px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: rgb(var(--v-theme-shape-lighten2));
+    border-radius: 8px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: rgb(var(--v-theme-stroke-lighten3));
+    border-radius: 8px;
+  }
+
+  &::-webkit-scrollbar-thumb:hover {
+    background: rgb(190, 196, 196);
+  }
+}
+
+@mixin link-effect(
+  $width: 100%,
+  $isMenuItem: false,
+  $paddingTop: 0,
+  $isLink: false
+) {
+  &:after {
+    content: '';
+    opacity: 0;
+  }
+
+  @if $isMenuItem == false {
+    &:hover,
+    &:active,
+    &[aria-expanded='true'] {
+      cursor: pointer;
+      position: relative;
+      color: rgb(var(--v-theme-primary-base) !important);
+      transition: ease-in-out 0.2s;
+
+      > * i,
+      > i {
+        color: rgb(var(--v-theme-primary-base) !important);
+      }
+
+      &:after {
+        opacity: 1;
+        position: absolute;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        top: $paddingTop;
+        width: $width;
+        margin: auto;
+        border-bottom: 2px solid rgb(var(--v-theme-primary-base));
+        transition: ease-in-out 0.2s;
+      }
+    }
+  }
+
+  @if ($isMenuItem) {
+    &:after {
+      opacity: 1;
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      top: 7px;
+      width: $width;
+      margin: auto;
+      border-bottom: 2px solid rgb(var(--v-theme-primary-base));
+      transition: ease-in-out 0.2s;
+    }
+  }
+
+  @if ($isLink) {
+    &:hover {
+      transition: ease-in-out 0.2s;
+      color: rgb(var(--v-theme-blue-darken3) !important);
+      cursor: pointer;
+
+      &:after {
+        opacity: 1;
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: 0;
+        bottom: 2px;
+        border-bottom: 1px solid rgb(var(--v-theme-blue-darken3));
+        width: 100%;
+      }
+    }
+  }
+}
+
+// Nav-Links (hover & active) - - - - - - - - - - - - - -
+.link--effect {
+  @include link-effect();
+}
+
+.link--hover {
+  @include link-effect(100%, false, 0, true);
+}
+
+// Menu - - - - - - - - - - - - - -
+.v-menu__content {
+  @include thin-scrollbar();
+}

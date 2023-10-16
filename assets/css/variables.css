@@ -1,0 +1,90 @@
+.link--effect:after {
+  content: "";
+  opacity: 0;
+}
+.link--effect:hover, .link--effect:active, .link--effect[aria-expanded=true] {
+  cursor: pointer;
+  position: relative;
+  color: var(--v-primary-base) !important;
+  transition: ease-in-out 0.2s;
+}
+.link--effect:hover > * i,
+.link--effect:hover > i, .link--effect:active > * i,
+.link--effect:active > i, .link--effect[aria-expanded=true] > * i,
+.link--effect[aria-expanded=true] > i {
+  color: var(--v-primary-base) !important;
+}
+.link--effect:hover:after, .link--effect:active:after, .link--effect[aria-expanded=true]:after {
+  opacity: 1;
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  top: 0;
+  width: 100%;
+  margin: auto;
+  border-bottom: 2px solid var(--v-primary-base);
+  transition: ease-in-out 0.2s;
+}
+
+.link--hover:after {
+  content: "";
+  opacity: 0;
+}
+.link--hover:hover, .link--hover:active, .link--hover[aria-expanded=true] {
+  cursor: pointer;
+  position: relative;
+  color: var(--v-primary-base) !important;
+  transition: ease-in-out 0.2s;
+}
+.link--hover:hover > * i,
+.link--hover:hover > i, .link--hover:active > * i,
+.link--hover:active > i, .link--hover[aria-expanded=true] > * i,
+.link--hover[aria-expanded=true] > i {
+  color: var(--v-primary-base) !important;
+}
+.link--hover:hover:after, .link--hover:active:after, .link--hover[aria-expanded=true]:after {
+  opacity: 1;
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  top: 0;
+  width: 100%;
+  margin: auto;
+  border-bottom: 2px solid var(--v-primary-base);
+  transition: ease-in-out 0.2s;
+}
+.link--hover:hover {
+  transition: ease-in-out 0.2s;
+  color: var(--v-blue-darken3) !important;
+  cursor: pointer;
+}
+.link--hover:hover:after {
+  opacity: 1;
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 2px;
+  border-bottom: 1px solid var(--v-blue-darken3);
+  width: 100%;
+}
+
+.v-menu__content {
+  scrollbar-width: thin;
+}
+.v-menu__content::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+.v-menu__content::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+.v-menu__content::-webkit-scrollbar-thumb {
+  background: rgba(190, 196, 196, 0.8);
+  border-radius: 4px;
+}
+.v-menu__content::-webkit-scrollbar-thumb:hover {
+  background: rgb(190, 196, 196);
+}/*# sourceMappingURL=variables.css.map */
