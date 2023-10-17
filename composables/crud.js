@@ -14,9 +14,9 @@ const getList = async (url, query, pageNumber, customSpecs = defaultSpecs) => {
   query && (endpoint = `${url}?${query}${page}`)
 
   try {
-    const { data: { _rawValue }, status } = await useAsyncData('getListData', () => $fetch(endpoint))
+    const { data: response, status } = await useAsyncData('getListData', () => $fetch(endpoint))
     specs.fireSuccessAlert && onSuccess(status, 'Solicitação processada com sucesso!', specs.swalTarget)
-    return _rawValue
+    return response.value
   } catch (error) {
     console.log('error', error);
     const { status, data: { detail } } = error
@@ -31,9 +31,9 @@ const getItem = async (url, query, customSpecs = defaultSpecs) => {
   let endpoint = url
   query && (endpoint = `${url}?${query}`)
   try {
-    const { data: { _rawValue: item }, status } = await useAsyncData('getItemData', () => $fetch(endpoint))
+    const { data: response , status } = await useAsyncData('getItemData', () => $fetch(endpoint))
     specs.fireSuccessAlert && onSuccess(status, 'Solicitação processada com sucesso!', 'GET', specs.swalTarget)
-    return item
+    return response.value
   } catch (error) {
     const { status, data: { detail } } = error
     specs.fireErrorAlert && onError(status, detail, specs.swalTarget)
@@ -45,9 +45,9 @@ const getItem = async (url, query, customSpecs = defaultSpecs) => {
 const createItem = async (url, payload, customSpecs = defaultSpecs) => {
   const specs = { defaultSpecs, ...customSpecs }
   try {
-    const { data: { _rawValue }, status } = await useAsyncData('createItemData', () => $fetch(url, { method: 'PUT', body: payload }))
+    const { data: response, status } = await useAsyncData('createItemData', () => $fetch(url, { method: 'PUT', body: payload }))
     specs.fireSuccessAlert && onSuccessCreate(status, 'Registo incluído com sucesso!', 'PUT', specs.swalTarget)
-    return _rawValue
+    return response.value
   } catch (error) {
     const { status, data: { detail } } = error
     specs.fireErrorAlert && onError(status, detail, specs.swalTarget)
@@ -59,9 +59,9 @@ const createItem = async (url, payload, customSpecs = defaultSpecs) => {
 const updateData = async (url, payload, customSpecs = defaultSpecs) => {
   const specs = { defaultSpecs, ...customSpecs }
   try {
-    const { data: { _rawValue }, status } = await useAsyncData('updateDataItem', () => $fetch(url, { method: 'POST', body: payload }))
+    const { data: response, status } = await useAsyncData('updateDataItem', () => $fetch(url, { method: 'POST', body: payload }))
     specs.fireSuccessAlert && onSuccessUpdate(status, 'Registo alterado com sucesso!', 'POST', specs.swalTarget)
-    return _rawValue
+    return response.value
   } catch (error) {
     const { status, data: { detail } } = error
     specs.fireErrorAlert && onError(status, detail, specs.swalTarget)
@@ -73,9 +73,9 @@ const updateData = async (url, payload, customSpecs = defaultSpecs) => {
 const removeItem = async (url, id, customSpecs = defaultSpecs) => {
   const specs = { defaultSpecs, ...customSpecs }
   try {
-    const { data: { _rawValue }, status } = await useAsyncData('removeItemData', () => $fetch(`${url}/${id}`, { method: 'DELETE' }))
+    const { data: response, status } = await useAsyncData('removeItemData', () => $fetch(`${url}/${id}`, { method: 'DELETE' }))
     specs.fireSuccessAlert && onSuccessDelete(status, 'Registo deletado com sucesso!', 'DELETE', specs.swalTarget)
-    return _rawValue
+    return response.value
   } catch (error) {
     const { status, data: { detail } } = error
     specs.fireErrorAlert && onError(status, detail, specs.swalTarget)

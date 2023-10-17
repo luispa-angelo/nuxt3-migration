@@ -262,25 +262,26 @@ export default {
             safe['tenant_id'] = 368;
           }
 
-          const {
-            data: { _rawValue: loginResponse },
-          } = await useFetch('/auth/fake-login', {
+          const { data: loginResponse } = await useFetch('/auth/fake-login', {
             method: 'POST',
             body: safe,
           });
 
-          if (loginResponse) {
-            if (loginResponse.detail === 'missing two factor token') {
+          if (loginResponse.value) {
+            if (loginResponse.value.detail === 'missing two factor token') {
               this.twoAuth = true;
               this.isLoading = false;
             } else {
-              if ('access_token' in loginResponse) {
-                localStorage.setItem('userInfo', JSON.stringify(loginResponse));
-                this.setUserInfo(JSON.stringify(loginResponse));
+              if ('access_token' in loginResponse.value) {
+                localStorage.setItem(
+                  'userInfo',
+                  JSON.stringify(loginResponse.value)
+                );
+                this.setUserInfo(JSON.stringify(loginResponse.value));
                 this.isLoading = false;
                 this.$router.push('/home');
               } else {
-                this.authenticate(loginResponse);
+                this.authenticate(loginResponse.value);
               }
             }
           } else {
