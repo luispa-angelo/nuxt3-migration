@@ -1,12 +1,17 @@
 <template>
   <v-navigation-drawer
     v-model="drawer"
+    app
+    permanent
     :mini-variant="!showOnTopNav && mini"
+    color="shape lighten-1"
     :width="!showOnTopNav ? 258.34 : '100%'"
     :disable-resize-watcher="showOnTopNav ? true : false"
+    height="100%"
     :class="showOnTopNav && 'top-nav'"
+    style="z-index: 15; box-shadow: unset"
   >
-    <div class="w-100 d-flex justify-end pt-10" v-if="!showOnTopNav">
+    <div class="w-100 d-flex justify-end pt-10 px-1" v-if="!showOnTopNav">
       <v-btn
         id="btn-open-side-menu"
         x-small
@@ -21,53 +26,52 @@
     </div>
 
     <v-list
+      style="height: 100%"
+      tile
       nav
-      open-strategy="single"
-      active-class="parent-menu-active"
+      dense
       v-click-outside="closeOpenMenus"
-      v-model:opened="openedMenu"
-      class="pb-0 h-100"
-      v-if="menuItems.length >= 1"
     >
       <v-list-group
         v-for="item in menuItems"
         :key="item.value ? item.value : item.id"
-        v-model="item.value"
-        :class="[
-          checkActiveRoute(item.path, item.value),
-          item.categories ? 'hasMenu' : '',
-        ]"
+        no-action
+        v-model="item.active"
+        :active-class="
+          !$vuetify.theme.dark
+            ? 'stroke lighten-5 stroke--text text--darken-3 parent-menu-active'
+            : 'shape parent-menu-active'
+        "
+        :append-icon="item.categories ? '$expand' : null"
+        :disabled="item.disabled"
+        :class="checkActiveRoute(item.path, item.value)"
         @click="menuRedirect(item.path)"
       >
-        <template v-slot:activator="{ props }">
-          <span
-            :id="`nav-link-${item.id}`"
-            v-bind="props"
-            class="d-flex align-center h-100 position-relative"
+        <template v-slot:activator>
+          <v-list-item-content :id="`nav-link-${item.id}`">
+            <v-list-item-title>{{ item.name }}</v-list-item-title>
+          </v-list-item-content>
+        </template>
+
+        <template v-slot:prependIcon>
+          <v-badge dot :value="showBadge(item)">
+            <i
+              class="material-symbols-rounded v-icon theme--light"
+              :style="
+                item.icon == 'approval_delegation' ? 'margin-top: -4px;' : ''
+              "
+            >
+              {{ setIcon(item) }}
+            </i>
+          </v-badge>
+        </template>
+
+        <template v-slot:appendIcon v-if="item.categories">
+          <i
+            class="material-symbols-rounded material-symbols-rounded-light v-icon theme--light"
           >
-            <v-list-item class="d-flex align-center">
-              <v-badge
-                offset-y="-6"
-                offset-x="-6"
-                dot
-                class="mr-2"
-                :value="showBadge(item)"
-                :color="showBadge(item) ? 'primary' : 'transparent'"
-              >
-                <i
-                  class="material-symbols-rounded v-icon"
-                  :style="
-                    item.icon == 'approval_delegation'
-                      ? 'margin-top: -4px;'
-                      : ''
-                  "
-                >
-                  {{ setIcon(item) }}
-                </i>
-              </v-badge>
-              {{ item.name }}
-            </v-list-item>
-          </span>
+            expand_more
+          </i>
         </template>
 
         <div class="category_menu" v-if="item.categories" ref="category_menu">
@@ -75,105 +79,122 @@
             <v-menu
               v-for="category in item.categories"
               :key="category.id"
-              :close-on-content-click="false"
               v-model="category.active"
+              :close-on-content-click="false"
               content-class="fixedOnTop"
               open-on-hover
-              location="end"
-              width="250"
+              :nudge-width="250"
+              max-width="250"
               max-height="70vh"
               offset-x
-              @update:model-value="handleOpenMenu()"
+              tile
+              @input="handleOpenMenu()"
             >
-              <template v-slot:activator="{ props: menu }">
-                <v-tooltip
-                  bottom
-                  :z-index="999"
-                  :disabled="category.name.length <= 20 ? true : false"
+              <template v-slot:activator="{ on, attrs }">
+                <v-list-item-content
+                  v-bind="attrs"
+                  v-on="on"
+                  :id="`nav-link-${category.id}`"
+                  style="width: 100%"
+                  :class="
+                    category.id == activeBusinessId ? 'active_category' : ''
+                  "
                 >
-                  <template v-slot:activator="{ props: tooltip }">
-                    <span
-                      class="category_item"
-                      v-bind="mergeProps(menu, tooltip)"
-                    >
-                      <v-list-item
-                        :id="`nav-link-${category.id}`"
-                        :class="
-                          category.id == activeBusinessId
-                            ? 'active_category'
-                            : ''
-                        "
+                  <v-tooltip
+                    bottom
+                    :z-index="999"
+                    :disabled="category.name.length <= 20 ? true : false"
+                  >
+                    <template v-slot:activator="{ on, attrs }">
+                      <span
+                        v-bind="attrs"
+                        v-on="on"
+                        style="display: flex; justify-content: space-between"
                       >
-                        {{ category.name }}
-
-                        <i class="material-symbols-rounded v-icon">
+                        <v-list-item-title>{{ category.name }}</v-list-item-title>
+                        <i
+                          class="material-symbols-rounded material-symbols-rounded-light v-icon theme--light"
+                        >
                           chevron_right
                         </i>
-                      </v-list-item>
-                    </span>
-                  </template>
+                      </span>
+                    </template>
 
-                  <span>{{ category.name }}</span>
-                </v-tooltip>
+                    <span>{{ category.name }}</span>
+                  </v-tooltip>
+                </v-list-item-content>
               </template>
 
-              <v-list class="submenu_wrapper">
-                <v-list-item
-                  v-for="(sub_menu, category_index) in category.items"
-                  :key="sub_menu.id"
-                  :class="
-                    category.id == $route.query.category
-                      ? 'v-list-group--active'
-                      : ''
-                  "
-                  id="submenu_wrapper"
+              <template v-if="!category.items" v-slot:prependIcon>
+                <i class="material-symbols-rounded v-icon icon-presets">
+                  {{ category.icon }}
+                </i>
+              </template>
+
+              <v-list-item
+                v-for="(sub_menu, category_index) in category.items"
+                :key="sub_menu.id"
+                :class="
+                  category.id == $route.query.category
+                    ? 'v-list-group--active'
+                    : ''
+                "
+                id="submenu_wrapper"
+              >
+                <v-list-item-content
+                  :id="`nav-link-${sub_menu.id} submenu_wrapper`"
                 >
-                  <span :id="`nav-link-${sub_menu.id} submenu_wrapper`">
+                  <v-tooltip
+                    bottom
+                    :z-index="999"
+                    :disabled="sub_menu.name.length <= 20 ? true : false"
+                  >
+                    <template v-slot:activator="{ on, attrs }">
+                      <v-list-item-title
+                        v-bind="attrs"
+                        v-on="on"
+                        id="submenu_title"
+                      >
+                        {{ sub_menu.name }}
+                      </v-list-item-title>
+                    </template>
+                    <span>{{ sub_menu.name }}</span>
+                  </v-tooltip>
+
+                  <v-list-item
+                    v-for="item in sub_menu.items"
+                    exact
+                    :key="item.name"
+                    :to="setPath(item, sub_menu)"
+                    :active-class="!$vuetify.theme.dark ? '' : 'shape'"
+                    @click="closeOpenMenus()"
+                  >
                     <v-tooltip
                       bottom
                       :z-index="999"
-                      :disabled="sub_menu.name.length <= 20 ? true : false"
+                      :disabled="category.name.length <= 20 ? true : false"
                     >
-                      <template v-slot:activator="{ props }">
-                        <v-list-item-title v-bind="props" id="submenu_title">
-                          {{ sub_menu.name }}
-                        </v-list-item-title>
+                      <template v-slot:activator="{ on, attrs }">
+                        <v-list-item-subtitle
+                          v-bind="attrs"
+                          v-on="on"
+                        >
+                        {{ item.name }}
+                      </v-list-item-subtitle>
                       </template>
-                      <span>{{ sub_menu.name }}</span>
+                      <span>{{ item.name }}</span>
                     </v-tooltip>
+                  </v-list-item>
 
-                    <v-list-item
-                      v-for="item in sub_menu.items"
-                      :key="item.name"
-                      :to="setPath(item, sub_menu)"
-                      :active-class="!$vuetify.theme.dark ? '' : 'shape'"
-                      @click="closeOpenMenus()"
-                      exact
-                    >
-                      <v-tooltip
-                        bottom
-                        :z-index="999"
-                        :disabled="category.name.length <= 20 ? true : false"
-                      >
-                        <template v-slot:activator="{ props }">
-                          <v-list-item-subtitle v-bind="props">
-                            {{ item.name }}
-                          </v-list-item-subtitle>
-                        </template>
-                        <span>{{ item.name }}</span>
-                      </v-tooltip>
-                    </v-list-item>
-
-                    <v-divider
-                      class="mt-5"
-                      v-if="
-                        category_index >= 0 &&
-                        category_index < category.items.length - 1
-                      "
-                    />
-                  </span>
-                </v-list-item>
-              </v-list>
+                  <v-divider
+                    class="mt-5"
+                    v-if="
+                      category_index >= 0 &&
+                      category_index < category.items.length - 1
+                    "
+                  />
+                </v-list-item-content>
+              </v-list-item>
             </v-menu>
           </v-list>
         </div>
@@ -188,14 +209,7 @@
 </template>
 
 <script>
-// import { mapGetters } from 'vuex';
-import { mergeProps } from 'vue';
-
-import { mapState } from 'pinia';
-import { useUserStore } from '../../stores/user';
-
-const router = useRouter();
-const path = router.currentRoute.value.path;
+import { mapGetters } from 'vuex'
 
 export default {
   props: {
@@ -280,140 +294,134 @@ export default {
         show: true,
       },
     ],
-    admins: [
-      ['Management', 'mdi-account-multiple-outline'],
-      ['Settings', 'mdi-cog-outline'],
-    ],
-    cruds: [
-      ['Create', 'mdi-plus-outline'],
-      ['Read', 'mdi-file-outline'],
-      ['Update', 'mdi-update'],
-      ['Delete', 'mdi-delete'],
-    ],
     menuMaxHeightVar: 0,
-    openedMenu: ['home'],
   }),
   computed: {
-    ...mapState(useUserStore, {
-      userInfo: 'getUserInfo',
+    ...mapGetters({
+      hasNewNotification: 'Notification/hasNewNotification',
+      userBusiness: 'userBusiness',
     }),
-    // ...mapGetters({
-    //   hasNewNotification: 'Notification/hasNewNotification',
-    //   userBusiness: 'userBusiness',
-    // }),
     styles() {
-      return `${this.menuMaxHeightVar}px`;
+      return `${this.menuMaxHeightVar}px`
     },
     businessMenu() {
-      return this.menuItems.find((item) => item.value === 'business');
+      return this.menuItems.find((item) => item.value === 'business')
     },
     activeBusinessId() {
       if (this.businessMenu.active) {
-        return this.findBusinessByCategory();
+        return this.findBusinessByCategory()
       }
-      return this.findBusinessByCategory();
+      return this.findBusinessByCategory()
     },
   },
   mounted() {
-    const businessMenu = this.menuItems.find(
-      (menu) => menu.name === 'Negócios'
-    );
-    businessMenu.categories = this.userInfo?.business.map((item) => {
+    const businessMenu = this.menuItems.find((menu) => menu.name === 'Negócios')
+    businessMenu.categories = this.userBusiness.map((item) => {
       return {
         id: item.id,
         name: item.name,
         disabled: !item.active,
         items: item.categories,
         active: false,
-      };
-    });
+      }
+    })
 
+    businessMenu.categories.forEach((category) => {
+      category.items.sort((a, b) => a.index - b.index)
+      category.items.forEach((item) => {
+        item.items.sort((a, b) => a.index - b.index)
+      })
+    })
+
+    const path = this.$router.history.current.path
     this.menuItems = this.menuItems.map((item) => {
-      if (path.includes(item.value)) return { ...item, active: false };
-      else return item;
-    });
+      if (path.includes(item.value)) return { ...item, active: false }
+      else return item
+    })
   },
   methods: {
     menuRedirect(path) {
       if (path) {
-        this.closeOpenMenus();
-        router.push(path);
+        this.closeOpenMenus()
+        this.$router.push(path)
       }
     },
     itemsToShow(items) {
       if (items) {
-        return items.filter((item) => item.show == true);
+        return items.filter((item) => item.show == true)
       } else {
-        return items;
+        return items
       }
     },
     setPath(item, category) {
       if (item.type == 'opportunities') {
-        return `/business-opportunity/${item.id}?category=${category.id}&pipeline-id=${item.pipeline_id}`;
+        return `/business-opportunity/${item.id}?category=${category.id}&pipeline-id=${item.pipeline_id}`
       } else if (item.type == 'companies') {
-        return `/business-companies/${item.id}?category=${category.id}`;
+        return `/business-companies/${item.id}?category=${category.id}`
       }
-      return '';
+      return ''
     },
     setIcon({ name, icon }) {
       if (icon) {
-        return icon;
+        return icon
       } else {
         if (name == 'Parceiros') {
-          return 'mdi-account-multiple';
+          return 'mdi-account-multiple'
         } else if (name == 'Clientes') {
-          return 'mdi-wallet';
+          return 'mdi-wallet'
         } else {
-          return 'mdi-wallet-travel';
+          return 'mdi-wallet-travel'
         }
       }
     },
     showBadge({ value }) {
-      // if (value == 'inbox' && this.hasNewNotification) {
-      //   return true;
-      // }
-      return false;
+      if (value == 'inbox' && this.hasNewNotification) {
+        return true
+      }
+      return false
     },
     closeOpenMenus(e) {
-      this.openedMenu = [];
+      if (
+        e?.target?.id?.includes('submenu') ||
+        e?.target?.className?.includes('fixedOnTop')
+      )
+        return ''
+
+      return this.menuItems.some((menu) => {
+        if (menu.active) menu.active = false
+      })
     },
     checkActiveRoute(path, value) {
-      const routePath = this.$route.path;
+      const routePath = this.$route.path
 
       if (
-        (value === 'company' &&
-          routePath.includes('/business-companies/bureau')) ||
-        (value === 'business' &&
-          routePath.includes('/business-') &&
-          !routePath.includes('/business-companies/bureau'))
+        (value === 'company' && routePath.includes('/business-companies/bureau')) ||
+        (value === 'business' && routePath.includes('/business-') && !routePath.includes('/business-companies/bureau'))
       ) {
-        return 'parent-menu-active';
+        return 'parent-menu-active'
       }
 
       if (routePath.includes(path)) {
-        return 'parent-menu-active';
+        return 'parent-menu-active'
       }
     },
     async handleOpenMenu() {
-      if (this.menuMaxHeightVar < 1) {
-        await this.$nextTick();
-        this.menuMaxHeightVar = this.$refs.category_menu[0].clientHeight;
-      }
+      await this.$nextTick()
+      this.menuMaxHeightVar = this.$refs.category_menu[0].clientHeight
     },
     findBusinessByCategory() {
-      const categoryId = this.$route.query['category'];
+      const categoryId = this.$route.query['category']
       if (categoryId) {
-        const business = this.userInfo.business.find((business) =>
+        const business = this.userBusiness.find((business) =>
           business.categories.some((category) => category.id == categoryId)
-        );
-        return business?.id;
+        )
+        return business?.id
       } else {
-        return null;
+        return null
       }
     },
-    mergeProps,
   },
-};
+}
 </script>
 
 <style lang="scss">
@@ -421,16 +429,17 @@ export default {
   border-right: none !important;
 
   &.top-nav {
+    height: 100%;
     max-width: calc(100% - 280px);
     width: 100% !important;
-    top: 0 !important;
+    top: 0;
     bottom: 0;
-    left: 60px !important;
+    left: 60px;
     overflow: visible;
-    height: auto !important;
 
-    background-color: rgb(var(--v-theme-shape-lighten1)) !important;
-    border-color: rgb(var(--v-theme-shape-lighten1)) !important;
+    .v-navigation-drawer__border {
+      display: none;
+    }
 
     .v-list {
       display: flex;
@@ -438,81 +447,51 @@ export default {
       // Main Menu
       .v-list-group {
         transition: ease-in-out 0.3s;
-        cursor: pointer;
 
-        &.v-list-group--open .v-list-group__header {
-          @include link-effect(100%, true, 7px);
+        .v-list-item::before {
+          border-radius: unset;
         }
 
-        i,
-        .v-list-item {
-          color: rgb(var(--v-theme-sub-text-base));
-        }
-
-        .v-list-item {
-          &,
-          .v-list-item-title {
-            font-size: 0.9rem !important;
-            line-height: 20px;
-            overflow: visible;
-            color: rgb(var(--v-theme-sub-text-base));
-            font-weight: 500;
-          }
-
-          .v-list-item__content {
-            display: flex;
-            align-items: center;
-            overflow: visible;
-          }
-        }
-
-        .v-list-item__append .v-list-item__spacer {
-          display: none;
-        }
-
-        &:not(.hasMenu) .v-list-item__append {
-          display: none;
-        }
-
-        &.hasMenu .v-list-item__append {
-          margin-left: 0.6rem;
-        }
-
-        .v-list-item-title {
+        .v-list-item__title {
           font-size: 0.9rem !important;
           line-height: 20px;
           overflow: visible;
-          color: rgb(var(--v-theme-sub-text-base));
+          color: var(--v-sub-text-base);
           font-weight: 500;
         }
 
-        // Hover Menu
-        &:hover,
-        &.v-list-group--open {
-          > .v-list-group__header .v-list-item-title,
-          > .v-list-group__header i,
+        .v-list-item__icon {
+          color: var(--v-sub-text-base);
+
           i {
-            color: rgb(var(--v-theme-primary-base));
+            color: var(--v-sub-text-base);
           }
-          .v-list-item,
-          .v-list-item-title {
-            color: rgb(var(--v-theme-primary-base));
+
+          &:first-child {
+            margin-right: 8px !important;
+          }
+
+          &.v-list-group__header__append-icon {
+            min-width: 28px !important;
+            margin-left: 0 !important;
           }
         }
 
-        &.parent-menu-active {
-          .v-list-item,
-          .v-list-item-title {
-            color: rgb(var(--v-theme-primary-base)) !important;
+        // Hover Menu
+        &:hover {
+          > .v-list-group__header .v-list-item__title,
+          > .v-list-group__header i,
+          i {
+            color: var(--v-primary-base);
           }
         }
 
         // Active Parent Business Menu
         &.parent-menu-active .v-list-group__header {
-          .v-list-item-title,
+          .v-list-item__title,
           .v-list-item__icon i,
           i {
-            color: rgb(var(--v-theme-primary-base));
+            color: var(--v-primary-base);
           }
 
           @include link-effect(100%, true, 7px);
@@ -520,9 +499,9 @@ export default {
 
         // Active Parent  Menu
         & .v-list-group__header.parent-menu-active {
-          .v-list-item-title,
+          .v-list-item__title,
           .v-list-item__icon {
-            color: rgb(var(--v-theme-primary-base)) !important;
+            color: var(--v-primary-base) !important;
           }
 
           @include link-effect(100%, false, 7px);
@@ -533,7 +512,7 @@ export default {
       .v-list-group__items > .category_menu {
         position: fixed;
         top: 53px;
-        background: rgb(var(--v-theme-shape-lighten1));
+        background: var(--v-shape-lighten1);
         max-height: 70vh !important;
         width: 200px;
         max-width: 200px;
@@ -549,48 +528,34 @@ export default {
         // Thinner Scrollbar
         @include thin-scrollbar;
 
-        .v-list {
-          .category_item .v-list-item {
-            width: 100%;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 0 !important;
-            font-size: 0.9rem !important;
-            font-weight: 500;
-            min-height: 40px;
-            color: rgb(var(--v-theme-sub-text-base));
-          }
-          &:first-child {
-            margin-top: 10px;
-          }
-        }
-
         .v-list-item__content {
           display: flex;
           align-items: center;
           justify-content: space-between;
-          width: 100%;
 
           cursor: pointer;
           padding: 6px 12px;
+
+          &:first-child {
+            margin-top: 10px;
+          }
 
           // Hover && Active category menu
           &:hover,
           &[aria-expanded='true'],
           &.active_category {
-            background-color: rgb(var(--v-theme-primary-lighten5)) !important;
-            color: rgb(var(--v-theme-primary-base)) !important;
+            background-color: var(--v-primary-lighten5) !important;
+            color: var(--v-primary-base) !important;
 
-            .v-list-item-title,
+            .v-list-item__title,
             i {
-              color: rgb(var(--v-theme-primary-base)) !important;
+              color: var(--v-primary-base) !important;
               font-weight: 600;
             }
           }
 
-          .v-list-item-title,
-          .v-list-item-subtitle,
+          .v-list-item__title,
+          .v-list-item__subtitle,
           i {
             overflow: hidden;
             text-overflow: ellipsis;
@@ -600,7 +565,7 @@ export default {
             white-space: normal !important;
             -webkit-box-orient: vertical;
             word-break: break-word !important;
-            color: rgb(var(--v-theme-sub-text-base)) !important;
+            color: var(--v-sub-text-base) !important;
             max-width: 110px;
           }
         }
@@ -621,67 +586,59 @@ export default {
   top: 53px !important;
   min-height: var(--minHeight);
   overflow-y: auto;
-  background-color: rgb(var(--v-theme-shape-lighten1));
+  background-color: var(--v-shape-lighten1);
 
   box-shadow: 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 2px 2px 0 rgba(0, 0, 0, 0.14),
     0 1px 5px 0 rgba(0, 0, 0, 0.12) !important;
-  border-radius: unset !important;
 
   // Thinner Scrollbar
   @include thin-scrollbar;
 
-  .submenu_wrapper {
-    background: transparent !important;
-    box-shadow: unset !important;
-    padding: 0 !important;
-    margin: 0 !important;
-
-    .v-list-item {
-      width: 100%;
-
-      a:hover,
-      a.v-list-item-active {
-        background-color: rgb(var(--v-theme-blue-lighten5));
-      }
-    }
-
-    .v-list-item-title {
-      padding-top: 20px;
-      font-weight: 700;
-      padding-bottom: 10px;
-      color: inherit !important;
-      opacity: 0.78;
-      font-size: 0.9rem !important;
-      line-height: 20px;
-      margin: 0 12px !important;
-    }
-
-    .v-list-item-subtitle {
-      font-weight: 500;
-      font-size: 0.9rem !important;
-      margin-left: 8px;
-      padding: 12px;
-    }
-
-    .v-list-item-title,
-    .v-list-item-subtitle {
-      width: 100%;
-      display: block;
-      overflow: hidden !important;
-      text-overflow: ellipsis;
-      -webkit-box-orient: vertical;
-      -webkit-line-clamp: 2;
-      line-clamp: 2;
-      white-space: nowrap !important;
-      word-break: break-word !important;
-      -webkit-box-orient: vertical;
-      max-width: 220px;
-    }
-  }
-
   .v-list-item {
     min-height: auto;
-    padding: 0 !important;
+    padding: 10px 0;
+
+    .v-list-item__content {
+      width: 100%;
+      padding-bottom: 0;
+
+      overflow: visible !important;
+
+      & > .v-list-item:hover {
+        background-color: #ecf0ff !important;
+      }
+
+      .v-list-item__title {
+        font-weight: 700;
+        padding-bottom: 10px;
+        color: inherit !important;
+        opacity: 0.78;
+        margin: 0 12px;
+        font-size: 0.9rem !important;
+        line-height: 20px;
+      }
+
+      .v-list-item__subtitle {
+        font-weight: 500;
+        font-size: 0.9rem !important;
+        margin: 0 12px;
+        padding-left: 8px;
+        color: var(--v-sub-text-base) !important;
+      }
+
+      .v-list-item__title,
+      .v-list-item__subtitle {
+        overflow: hidden !important;
+        text-overflow: ellipsis;
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 2;
+        line-clamp: 2;
+        white-space: nowrap !important;
+        word-break: break-word !important;
+        -webkit-box-orient: vertical;
+        max-width: 200px;
+      }
+    }
   }
 }
 

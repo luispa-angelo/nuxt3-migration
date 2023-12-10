@@ -8,20 +8,21 @@
     content-class="support-menu"
     v-model="showMenu"
   >
-    <template v-slot:activator="{ props }">
+    <template v-slot:activator="{ on, attrs }">
       <v-btn
         fab
         tile
         rounded
         icon
-        class="nav-link link--effect pt-2"
-        v-bind="props"
-        @click="getInitialData()"
-      >
-        <!-- v-tooltip="{
+        class="mr-2 nav-link link--effect"
+        v-bind="attrs"
+        v-on="on"
+        v-tooltip="{
           content: showMenu ? '' : `<div class='v-btn-tooltip'> Ajuda </div>`,
           placement: 'bottom-center',
-        }" -->
+        }"
+        @click="getInitialData()"
+      >
         <i class="material-symbols-rounded v-icon icon-presets"> help </i>
       </v-btn>
     </template>
@@ -84,10 +85,10 @@
 
 <script>
 // Async import
-const SupportMenuItems = () => import('./SupportMenuItems.vue');
-const TaskView = () => import('./TaskView.vue');
-const WhatsNewList = () => import('./WhatsNewList.vue');
-const IdeasPortal = () => import('./IdeasPortal.vue');
+const SupportMenuItems = () => import('./SupportMenuItems.vue')
+const TaskView = () => import('./TaskView.vue')
+const WhatsNewList = () => import('./WhatsNewList.vue')
+const IdeasPortal = () => import('./IdeasPortal.vue')
 
 export default {
   data: () => ({
@@ -99,41 +100,41 @@ export default {
   }),
   computed: {
     activeComponent() {
-      if (this.showIdeaPortal) return IdeasPortal;
-      else if (this.newsID < 0) return WhatsNewList;
-      else if (this.newsID !== '') return TaskView;
+      if (this.showIdeaPortal) return IdeasPortal
+      else if (this.newsID < 0) return WhatsNewList
+      else if (this.newsID !== '') return TaskView
 
-      return SupportMenuItems;
+      return SupportMenuItems
     },
   },
   mounted() {
-    this.getInitialData();
+    this.getInitialData()
   },
   methods: {
     handleSelectNews(id) {
-      this.auxNewId = this.newsID;
-      this.newsID = id;
-      this.showIdeaPortal = false;
+      this.auxNewId = this.newsID
+      this.newsID = id
+      this.showIdeaPortal = false
     },
     handleIdeasPortal() {
-      this.showIdeaPortal = !this.showIdeaPortal;
+      this.showIdeaPortal = !this.showIdeaPortal
     },
     async handleMenuVisibility(close = false) {
-      if (close) this.showMenu = false;
+      if (close) this.showMenu = false
 
-      this.showIdeaPortal = false;
-      this.newsID = this.auxNewId < 0 ? -1 : '';
-      this.auxNewId = '';
+      this.showIdeaPortal = false
+      this.newsID = this.auxNewId < 0 ? -1 : ''
+      this.auxNewId = ''
     },
     async getInitialData() {
       if (!this.showMenu) {
-        const { data, success } = await getList('/media/list');
+        const { data, success } = await this.getList('/media/list')
 
-        if (success && data) this.newsList = data;
+        if (success && data) this.newsList = data
       }
     },
   },
-};
+}
 </script>
 
 <style lang="scss">
@@ -186,7 +187,7 @@ export default {
       // Thinner Scrollbar
       @include thin-scrollbar;
 
-      .v-list-subheader {
+      .v-subheader {
         font-size: 1.1rem;
         font-weight: 600;
         color: var(--v-default-text-base);

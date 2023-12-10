@@ -1,19 +1,19 @@
 <template>
   <v-list dense height="100%">
     <span v-for="link in links" :key="link.title">
-      <v-list-subheader>{{ link.title }}</v-list-subheader>
+      <v-subheader>{{ link.title }}</v-subheader>
 
       <v-list-item-group>
         <v-list-item @click="handleAccessLink(link)">
-          <span :class="link.variant">
+          <v-list-item-icon :class="link.variant">
             <i class="v-icon material-symbols-rounded">
               {{ link.icon }}
             </i>
-          </span>
+          </v-list-item-icon>
 
-          <span>
+          <v-list-item-content>
             <v-list-item-title v-text="link.text" />
-          </span>
+          </v-list-item-content>
 
           <i class="icon-presets material-symbols-rounded">
             {{ link.external ? 'open_in_new' : 'arrow_forward' }}
@@ -24,7 +24,7 @@
       <v-divider />
     </span>
 
-    <v-list-subheader>Novidades</v-list-subheader>
+    <v-subheader>Novidades</v-subheader>
     <v-list-item-group v-if="news">
       <v-list-item
         v-for="(new_item, i) in news.slice(0, 3)"
@@ -40,7 +40,7 @@
           style="border-radius: 4px"
         />
 
-        <span style="padding: 0 0.6rem">
+        <v-list-item-content style="padding: 0 0.6rem">
           <v-list-item-title>
             <span v-html="findItemOnArray('title', new_item.content)"> </span>
           </v-list-item-title>
@@ -53,7 +53,7 @@
           <small class="date"
             >{{ $moment(new_item.timestamp).format('L') }}
           </small>
-        </span>
+        </v-list-item-content>
 
         <v-list-item-action>
           <i class="icon-presets material-symbols-rounded"> arrow_forward </i>

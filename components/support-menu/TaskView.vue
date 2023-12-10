@@ -22,9 +22,9 @@
       v-if="selectedNews !== ''"
       ref="helpMenuComponent"
     >
-      <v-list-subheader>
+      <v-subheader>
         <span v-html="findItemOnArray('title', selectedNews.content)"></span>
-      </v-list-subheader>
+      </v-subheader>
 
       <v-list-item-group>
         <section>
@@ -73,7 +73,7 @@
           <v-divider />
         </section>
 
-        <v-list-subheader>Ver outras novidades</v-list-subheader>
+        <v-subheader>Ver outras novidades</v-subheader>
 
         <v-list-item
           class="pt-0 d-flex flex-column"
@@ -81,7 +81,7 @@
           :key="newsItem.uuid"
           @click="handleChangeSelectedNews(newsItem.uuid)"
         >
-          <span class="pt-0 align-self-start w-100">
+          <v-list-item-content class="pt-0 align-self-start w-100">
             <v-list-item-subtitle>
               <v-tooltip
                 bottom
@@ -92,9 +92,10 @@
                     : false
                 "
               >
-                <template v-slot:activator="{ props }">
+                <template v-slot:activator="{ on, attrs }">
                   <span
-                    v-bind="props"                    
+                    v-bind="attrs"
+                    v-on="on"
                     v-html="findItemOnArray('title', newsItem.content)"
                     class="truncate_text"
                   >
@@ -110,7 +111,7 @@
                 >arrow_forward
               </i>
             </v-list-item-subtitle>
-          </span>
+          </v-list-item-content>
         </v-list-item>
       </v-list-item-group>
     </v-list>

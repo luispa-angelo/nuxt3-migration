@@ -15,7 +15,7 @@
           style="border-radius: 4px"
         />
 
-        <span style="padding: 0 0.6rem">
+        <v-list-item-content style="padding: 0 0.6rem">
           <v-list-item-title>
             <span v-html="findItemOnArray('title', new_item.content)"> </span>
           </v-list-item-title>
@@ -28,7 +28,7 @@
           <small class="date"
             >{{ $moment(new_item.timestamp).format('L') }}
           </small>
-        </span>
+        </v-list-item-content>
 
         <v-list-item-action>
           <i class="icon-presets material-symbols-rounded">arrow_forward</i>

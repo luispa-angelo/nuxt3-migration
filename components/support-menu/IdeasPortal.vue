@@ -1,19 +1,19 @@
 <template>
   <div class="portal_wrapper">
     <v-list dense height="100%" v-if="firstAccess">
-      <v-list-subheader>Selecione uma das opções:</v-list-subheader>
+      <v-subheader>Selecione uma das opções:</v-subheader>
 
       <v-list-item-group v-for="link in links" :key="link.title">
         <v-list-item @click="handleAccessLink(link)">
-          <span :class="link.variant">
+          <v-list-item-icon :class="link.variant">
             <i class="v-icon material-symbols-rounded">
               {{ link.icon }}
             </i>
-          </span>
+          </v-list-item-icon>
 
-          <span>
+          <v-list-item-content>
             <v-list-item-title v-text="link.text" />
-          </span>
+          </v-list-item-content>
 
           <i class="icon-presets material-symbols-rounded">
             {{ link.external ? 'open_in_new' : 'arrow_forward' }}

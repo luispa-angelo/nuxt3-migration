@@ -1,11 +1,7 @@
 <template>
-  <header
-    color="shape lighten-1"
-    height="52"
-    :class="scrollPosition >= 100 ? 'elevation-1' : ''"
-  >
-    <div class="w-100 d-flex justify-space-between align-center px-4">
-      <div class="d-flex align-center">
+  <v-app-bar color="shape lighten-1" app clipped-left height="52">
+    <div class="w-100 d-flex justify-space-between align-center">
+      <div class="navigation-menu">
         <OmieLogo is-resumed />
 
         <NavigationSideMenu :showOnTopNav="true" />
@@ -23,47 +19,54 @@
           rounded
           icon
           to="/configure"
-          class="link--effect pt-2"
+          class="mr-3 link--effect"
           v-if="isAdmin"
-        >
-          <!-- v-tooltip="{
+          v-tooltip="{
             content: `
-                  <div class='v-btn-tooltip '>
-                    Configurações
-                  </div>
-                  `,
+                <div class='v-btn-tooltip '>
+                  Configurações
+                </div>
+                `,
             placement: 'bottom-center',
-          }" -->
+          }"
+        >
           <i class="material-symbols-rounded v-icon icon-presets"> settings </i>
         </v-btn>
 
         <v-menu offset-y rounded>
-          <template v-slot:activator="{ props }">
-            <v-avatar v-bind="props" size="32px" color="primary" class="ml-2">
+          <template v-slot:activator="{ on, attrs }">
+            <v-btn
+              fab
+              width="32"
+              height="32"
+              v-bind="attrs"
+              v-on="on"
+              color="primary"
+              elevation="2"
+              v-tooltip="{
+                content: `
+                    <div class='v-btn-tooltip'>
+                      Seu <br>
+                      Perfil
+                    </div>
+                    `,
+                placement: 'bottom-center',
+              }"
+            >
               <b v-if="userInfo" class="title white--text">
                 {{ userInfo.name[0] }}
               </b>
-            </v-avatar>
-
-            <!-- v-tooltip="{
-                content: `
-                      <div class='v-btn-tooltip'>
-                        Seu <br>
-                        Perfil
-                      </div>
-                      `,
-                placement: 'bottom-center',
-              }" -->
+            </v-btn>
           </template>
 
           <v-list nav dense min-width="250">
-            <v-list-item v-if="userInfo">
+            <v-subheader v-if="userInfo">
               Bem vindo(a), <br />
               {{ userInfo.name }}
-            </v-list-item>
+            </v-subheader>
             <v-divider class="mt-2 mb-1"></v-divider>
-            <span>
-              <!-- <Dialog
+            <v-list-item-group>
+              <Dialog
                 isEditing
                 userEditing
                 :userInfo="userInfo"
@@ -80,7 +83,7 @@
                     ref="menuForm"
                   />
                 </template>
-              </Dialog> -->
+              </Dialog>
               <v-list-item
                 v-for="item in userItems"
                 @click="menuActionClick(item)"
@@ -90,17 +93,17 @@
                   {{ item.label }}
                 </v-list-item-title>
               </v-list-item>
-            </span>
+            </v-list-item-group>
           </v-list>
         </v-menu>
       </div>
       <!-- End -->
     </div>
-  </header>
+  </v-app-bar>
 </template>
 
 <script>
-//   import { mapGetters } from 'vuex'
+import { mapGetters } from 'vuex'
 export default {
   data: () => ({
     itemId: null,
@@ -121,99 +124,83 @@ export default {
     ],
     userInfo: null,
     isAdmin: false,
-    scrollPosition: '',
   }),
   created() {
-    window.addEventListener('resize', this.handleResizeWindow);
-    window.addEventListener('scroll', this.handleScroll);
+    window.addEventListener('resize', this.handleResizeWindow)
   },
   destroyed() {
-    window.removeEventListener('resize', this.handleResizeWindow);
+    window.removeEventListener('resize', this.handleResizeWindow)
   },
   mounted() {
-    var userInfo = JSON.parse(localStorage.getItem('userInfo'));
+    var userInfo = JSON.parse(localStorage.getItem('userInfo'))
 
     if (!userInfo) {
-      this.$router.push('/');
+      this.$router.push('/')
     }
-    this.isAdmin = false;
+    this.isAdmin = false
     if (userInfo) {
-      this.isAdmin = userInfo.admin;
+      this.isAdmin = userInfo.admin
     }
 
-    this.userInfo = userInfo;
-    this.setAlertInterval();
+    this.userInfo = userInfo
+    this.setAlertInterval()
   },
-  // computed: mapGetters({
-  //   notificationList: 'Notification/formattedNotifications',
-  //   notificationRefresh: 'Notification/notificationRefresh',
-  //   notificationQuery: 'Notification/notificationQuery',
-  //   alertRefresh: 'Alert/alertRefresh',
-  // }),
-  unmounted() {
-    window.removeEventListener('scroll', this.handleScroll);
-  },
+  computed: mapGetters({
+    notificationList: 'Notification/formattedNotifications',
+    notificationRefresh: 'Notification/notificationRefresh',
+    notificationQuery: 'Notification/notificationQuery',
+    alertRefresh: 'Alert/alertRefresh',
+  }),
   methods: {
     handleConfigBtn() {
-      this.$router.push('/configure');
+      this.$router.push('/configure')
     },
     async menuActionClick(item) {
       switch (item.action) {
-        case 'logout':
-          await localStorage.setItem('userInfo', null);
-          await localStorage.removeItem('remove_opportunity_message');
-          await localStorage.removeItem('remove_opportunity_message_deny');
-          this.$router.push('/');
-          break;
-        default:
-          this.$router.push(item.path);
+      case 'logout':
+        await localStorage.setItem('userInfo', null)
+        await localStorage.removeItem('remove_opportunity_message')
+        await localStorage.removeItem('remove_opportunity_message_deny')
+        this.$router.push('/')
+        break
+      default:
+        this.$router.push(item.path)
       }
     },
     themeSelect(theme) {
-      let darkMode = false;
-      localStorage.setItem('theme', theme);
-      theme === 'dark' ? (darkMode = true) : (darkMode = false);
-      this.$vuetify.theme.dark = darkMode;
+      let darkMode = false
+      localStorage.setItem('theme', theme)
+      theme === 'dark' ? (darkMode = true) : (darkMode = false)
+      this.$vuetify.theme.dark = darkMode
     },
     setAlertInterval() {
-      // const { intervalId, interval } = this.alertRefresh
-      // if (!intervalId) {
-      //   const intervalId = setInterval(() => {
-      //     this.getAlerts()
-      //   }, interval)
-      //   this.$store.commit('Alert/SET_ALERTS_REFRESH', { intervalId })
-      // }
+      const { intervalId, interval } = this.alertRefresh
+      if (!intervalId) {
+        const intervalId = setInterval(() => {
+          this.getAlerts()
+        }, interval)
+        this.$store.commit('Alert/SET_ALERTS_REFRESH', { intervalId })
+      }
     },
     handleResizeWindow() {
-      this.isMobile = window.innerWidth < 890 ? true : false;
+      this.isMobile = window.innerWidth < 890 ? true : false
     },
     async getAlerts() {
-      // await this.$store.dispatch('Alert/fetchList', {
-      //   url: '/customer/alert',
-      //   reset: true,
-      // })
-    },
-    handleScroll() {
-      // TODO: Transform into composable
-      this.scrollPosition = window.scrollY;
+      await this.$store.dispatch('Alert/fetchList', {
+        url: '/customer/alert',
+        reset: true,
+      })
     },
   },
-};
+}
 </script>
 
 <style scoped lang="scss">
-header {
+header.v-app-bar {
+  z-index: 100;
   padding: 0;
   box-shadow: none !important;
-  overflow: visible;
-  top: 0px;
-  z-index: 1006;
-  transform: translateY(0%);
-  position: fixed;
-  left: 0px;
-  width: calc(100% - 0px);
-  background-color: rgb(var(--v-theme-shape-lighten1)) !important;
-  &.elevation-1 {
+  &.v-app-bar--is-scrolled {
     box-shadow: $shadow-overlay !important;
   }
 }
@@ -233,18 +220,8 @@ header {
 </style>
 
 <style lang="scss">
-.user-options {
-  .v-btn {
-    box-shadow: unset;
-  }
-  .v-btn .v-btn__overlay {
-    background: transparent !important;
-  }
-  .link--effect:after {
-    bottom: -9px !important;
-    border: unset;
-    border-radius: unset;
-  }
+.user-options .link--effect:after {
+  bottom: -9px !important;
 }
 
 .v-btn.v-btn--icon:focus,
@@ -253,7 +230,7 @@ header {
     background-color: unset !important;
   }
   > i {
-    color: rgb(var(--v-theme-primary-base)) !important;
+    color: var(--v-primary-base) !important;
   }
 }
 </style>
