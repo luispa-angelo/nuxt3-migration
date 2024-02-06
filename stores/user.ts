@@ -1,5 +1,15 @@
+interface UserState {
+  userInfo: any;
+  userTeams: any[];
+  userTeam: any | null;
+  coworkers: any[];
+  userBusiness: any[];
+}
+
+const coworkersUrl = '/ecosystem/my-coworkers';
+
 export const useUserStore = defineStore('userStore', {
-  state: () => ({
+  state: (): UserState => ({
     userInfo: {},
     userTeams: [],
     userTeam: null,
@@ -7,18 +17,18 @@ export const useUserStore = defineStore('userStore', {
     userBusiness: [],
   }),
   getters: {
-    getUserInfo: (state) => state.userInfo,
-    getUserTeams: (state) => state.userTeams,
-    getUserTeam: (state) => state.userTeam,
-    getCoworkers: (state) => state.coworkers,
-    getUserBusiness: (state) => state.userBusiness,
-    getBusinessCategories: (state) => {
+    getUserInfo: (state: UserState) => state.userInfo,
+    getUserTeams: (state: UserState) => state.userTeams,
+    getUserTeam: (state: UserState) => state.userTeam,
+    getCoworkers: (state: UserState) => state.coworkers,
+    getUserBusiness: (state: UserState) => state.userBusiness,
+    getBusinessCategories: (state: UserState) => {
       const categories: any[] = state.userBusiness.flatMap(
         (business: any) => business.categories
       );
       return categories;
     },
-    getBusinessItems: (state) => {
+    getBusinessItems: (state: UserState) => {
       const items: any[] = state.userBusiness.flatMap((business: any) =>
         business.categories.flatMap((category: any) => category.items)
       );
@@ -26,18 +36,24 @@ export const useUserStore = defineStore('userStore', {
     },
   },
   actions: {
-    setUser(userInfo: any) {
-      const user = JSON.parse(userInfo);
-      const { capabilities, business } = user;
-      const userTeams = capabilities.map(
-        (capability: any) => capability.team_id
-      );
-      const [userTeam] = userTeams;
+    async setUser(userInfo: any) {
+      if (userInfo) {
+        const user = JSON.parse(userInfo);
+        const { capabilities, business } = user;
+        const userTeams = capabilities.map(
+          (capability: any) => capability.team_id
+        );
+        const [userTeam] = userTeams;
 
-      this.userInfo = user;
-      this.userTeams = userTeams;
-      this.userTeam = userTeam;
-      this.userBusiness = business;
-     },
+        this.userInfo = user;
+        this.userTeams = userTeams;
+        this.userTeam = userTeam;
+        this.userBusiness = business;
+      }
+    },
+    async fetchCoworkers(query: string) {
+      const { data }: any = await getList(coworkersUrl, query);
+      this.coworkers = data;
+    },
   },
 });

@@ -1,178 +1,98 @@
 // ref: https://vuetifyjs.com/en/features/sass-variables/#variable-api
-$font-family: 'Open Sans', sans-serif;
+@use 'variables';
 
-// Overwrite Vuetify SASS Variables
+// Overwrite Vuetify component's SASS Variables
 @use 'vuetify/settings' with (
-  $border-radius-root: 8px,
-  $field-outline-opacity: 0.38,
+  $field-outline-opacity: 0.38,  
+  $font-size-root: 14px,
 
-  // fonts - - - - - - - - - - - - - - -
-  $body-font-family: $font-family,
-  $heading-font-family: $font-family,
-  $font-size-root: 14px
+  // buttons - - - - - - - - - - - -  
+  $button-text-transform: initial,
+
+  // typography - - - - - - - - - - - -
+  $typography: 
+    (
+      'h1': (
+        'size': map-get(variables.$headings, 'h1', 'size'),
+        'weight': map-get(variables.$headings, 'h1', 'weight'),
+        'line-height': map-get(variables.$headings, 'h1', 'line-height'),
+        'font-family': map-get(variables.$headings, 'h1', 'font-family'),
+      ),
+      'h2': (
+        'size': map-get(variables.$headings, 'h2', 'size'),
+        'weight': map-get(variables.$headings, 'h2', 'weight'),
+        'line-height': map-get(variables.$headings, 'h2', 'line-height'),
+        'font-family': map-get(variables.$headings, 'h2', 'font-family'),
+      ),
+      'h3': (
+        'size': map-get(variables.$headings, 'h3', 'size'),
+        'weight': map-get(variables.$headings, 'h3', 'weight'),
+        'line-height': map-get(variables.$headings, 'h3', 'line-height'),
+        'font-family': map-get(variables.$headings, 'h3', 'font-family'),
+      ),
+      'h4': (
+        'size': map-get(variables.$headings, 'h4', 'size'),
+        'weight': map-get(variables.$headings, 'h4', 'weight'),
+        'line-height': map-get(variables.$headings, 'h4', 'line-height'),
+        'font-family': map-get(variables.$headings, 'h4', 'font-family'),
+      ),
+      'h5': (
+        'size': map-get(variables.$headings, 'h5', 'size'),
+        'weight': map-get(variables.$headings, 'h5', 'weight'),
+        'line-height': map-get(variables.$headings, 'h5', 'line-height'),
+        'font-family': map-get(variables.$headings, 'h5', 'font-family'),
+      ),
+      'subtitle-1': (
+        'size': map-get(variables.$headings, 'subtitle-1', 'size'),
+        'weight': map-get(variables.$headings, 'subtitle-1', 'weight'),
+        'line-height': map-get(variables.$headings, 'subtitle-1', 'line-height'),
+        'font-family': map-get(variables.$headings, 'subtitle-1', 'font-family'),
+      ),
+      'subtitle-2': (
+        'size': map-get(variables.$headings, 'subtitle-2', 'size'),
+        'weight': map-get(variables.$headings, 'subtitle-2', 'weight'),
+        'line-height': map-get(variables.$headings, 'subtitle-2', 'line-height'),
+        'font-family': map-get(variables.$headings, 'subtitle-2', 'font-family'),
+      ),
+      'body-1': (
+        'size': map-get(variables.$headings, 'body-1', 'size'),
+        'weight': map-get(variables.$headings, 'body-1', 'weight'),
+        'line-height': map-get(variables.$headings, 'body-1', 'line-height'),
+        'font-family': map-get(variables.$headings, 'body-1', 'font-family'),
+        'letter-spacing': map-get(variables.$headings, 'body-1', 'font-family'),
+      ),
+      'body-2': (
+        'size': map-get(variables.$headings, 'body-2', 'size'),
+        'weight': map-get(variables.$headings, 'body-2', 'weight'),
+        'line-height': map-get(variables.$headings, 'body-2', 'line-height'),
+        'font-family': map-get(variables.$headings, 'body-2', 'font-family'),
+        'letter-spacing': map-get(variables.$headings, 'body-2', 'font-family'),
+      ),
+      'button': (
+        'size': map-get(variables.$headings, 'button', 'size'),
+        'weight': map-get(variables.$headings, 'button', 'weight'),
+        'line-height': map-get(variables.$headings, 'button', 'line-height'),
+        'font-family': map-get(variables.$headings, 'button', 'font-family'),
+        'text-transform': uppercase,
+      )
+    ),
+
+  // cards - - - - - - - - - - - - - - -
+  $card-elevation: 1,
+
+  // sheets  - - - - - - - - - - - - - -
+  $sheet-border-radius: variables.$border-radius-root,
+
+  // panels  - - - - - - - - - - - - - -
+  $expansion-panel-border-radius: 0,
+
+  // tooltip - - - - - - - - - - - - - - -
+  $tooltip-background-color: rgb(var(--v-theme-grey-base)),
+  $tooltip-transition-enter-duration: 0s,
+  $tooltip-transition-leave-duration: 0s,  
+  $tooltip-border-radius: 4px,
+  $tooltip-padding: 8px 12px,
+
+  // toolbar - - - - - - - - - - - - - -
+  $toolbar-btn-icon-size: '34px'
 );
-
-// // shadows - - - - - - - - - - - - - -
-// $shadow-key-ambient: (
-//   0: (
-//     0px 0px 0px 0px rgba(0, 0, 0, 0),
-//   ),
-//   1: (
-//     0px 0px 0px 0px rgba(0, 0, 0, 0),
-//   ),
-//   2: (
-//     0px 0px 0px 0px rgba(0, 0, 0, 0),
-//   ),
-//   3: (
-//     0px 0px 0px 0px rgba(0, 0, 0, 0),
-//   ),
-//   4: (
-//     0px 0px 0px 0px rgba(0, 0, 0, 0),
-//   ),
-// );
-// $shadow-key-penumbra: (
-//   0: (
-//     0px 0px 0px 0px rgba(0, 0, 0, 0),
-//   ),
-//   1: (
-//     0px 4px 16px rgba(0, 0, 0, 0.08),
-//   ),
-//   2: (
-//     0px 4px 16px rgba(0, 0, 0, 0.16),
-//   ),
-//   3: (
-//     0px 4px 24px rgba(0, 0, 0, 0.24),
-//   ),
-//   4: (
-//     0px 4px 32px rgba(0, 0, 0, 0.32),
-//   ),
-// );
-// $shadow-raised: 0px 1px 3px 1px rgba(37, 47, 64, 0.15),
-//   0px 1px 2px 0px rgba(37, 47, 64, 0.3);
-// $shadow-overlay: 0px 2px 3px 0px rgba(37, 47, 64, 0.3),
-//   0px 6px 10px 4px rgba(37, 47, 64, 0.15);
-
-// // radius - - - - - - - - - - - - - -
-// $corner-small: 0.25rem;
-// $corner-medium: 0.5rem;
-// $corner-large: 1rem;
-// $corner-circle: 50%;
-// $corner-pill: 625rem;
-
-// // elevation - - - - - - - - - - - - - -
-// $surface-white: rgb(var(--v-theme-white-base));
-// $surface-white-hovered: rgb(var(--v-theme-white-darken));
-// $surface-white-pressed: rgb(var(--v-theme-stroke-lighten5));
-// $surface-darken: rgb(var(--v-theme-white-darken));
-// $surface-darken-hovered: rgb(var(--v-theme-stroke-lighten5));
-// $surface-darken-pressed: rgb(var(--v-theme-stroke-lighten3));
-// $surface-raised: rgb(var(--v-theme-white-base));
-// $surface-raised-hovered: rgb(var(--v-theme-white-darken1));
-// $surface-raised-pressed: rgb(var(--v-theme-stroke-lighten5));
-// $surface-overlay: rgb(var(--v-theme-white-base));
-// $surface-overlay-hovered: rgb(var(--v-theme-white-darken1));
-// $surface-overlay-pressed: rgb(var(--v-theme-stroke-lighten5));
-
-// // typography - - - - - - - - - - - -
-// $headings: (
-//   'h1': (
-//     'size': 4.143rem,
-//     'weight': 400,
-//     'line-height': 72px,
-//     'font-family': $heading-font-family,
-//   ),
-//   'h2': (
-//     'size': 3.214rem,
-//     'weight': 400,
-//     'line-height': 56px,
-//     'font-family': $heading-font-family,
-//   ),
-//   'h3': (
-//     'size': 2.571rem,
-//     'weight': 400,
-//     'line-height': 54px,
-//     'font-family': $heading-font-family,
-//   ),
-//   'h4': (
-//     'size': 2.286rem,
-//     'weight': 400,
-//     'line-height': 40px,
-//     'font-family': $heading-font-family,
-//   ),
-//   'h5': (
-//     'size': 2rem,
-//     'weight': 400,
-//     'line-height': 20px,
-//     'font-family': $heading-font-family,
-//   ),
-//   'subtitle-1': (
-//     'size': 1.571rem,
-//     'weight': 600,
-//     'line-height': 28px,
-//     'font-family': $body-font-family,
-//   ),
-//   'subtitle-2': (
-//     'size': 1.143rem,
-//     'weight': 400,
-//     'line-height': 24px,
-//     'font-family': $body-font-family,
-//   ),
-//   'body-1': (
-//     'size': 1.143rem,
-//     'weight': 400,
-//     'line-height': 24px,
-//     'font-family': $body-font-family,
-//     'letter-spacing': 0.15px,
-//   ),
-//   'body-2': (
-//     'size': 1rem,
-//     'weight': 400,
-//     'line-height': 20px,
-//     'font-family': $body-font-family,
-//     'letter-spacing': 0.25px,
-//   ),
-//   'button': (
-//     'size': 1.143rem,
-//     'weight': 600,
-//     'line-height': 20px,
-//     'font-family': $body-font-family,
-//     'text-transform': uppercase,
-//   ),
-// );
-
-// // general - - - - - - - - - - - - - -
-// $border-radius-root: 8px;
-// $calendar-event-border-radius: 4px;
-// $toolbar-btn-icon-size: '34px';
-
-// // cards - - - - - - - - - - - - - - -
-// $card-elevation: 1;
-
-// // sheets  - - - - - - - - - - - - - -
-// $sheet-border-radius: $border-radius-root;
-
-// // panels  - - - - - - - - - - - - - -
-// $expansion-panel-border-radius: 0;
-// $expansion-panel-content-padding: 16px;
-
-// // buttons - - - - - - - - - - - - - -
-// $btn-text-transform: capitalize;
-// $btn-hover-opacity: 0;
-// $btn-focus-opacity: 0;
-// $btn-active-opacity: 0;
-// $btn-sizes: (
-//   'large': 48,
-//   'default': 40,
-//   'small': 32,
-// );
-// $fab-sizes: (
-//   'default': 34,
-// );
-
-// // icons - - - - - - - - - - - - - - -
-// $fab-icon-sizes: (
-//   'default': 19,
-// );
-
-// // Tooltip - - - - - - - - - - - - - - -
-// $tooltip-background-color: rgb(var(--v-theme-default-text-base));

@@ -1,0 +1,33 @@
+@use 'variables';
+
+//classes
+.v-tooltip__content {
+  max-width: 270px !important;
+  margin: -2px !important;
+  @extend .font-stamp-medium !optional;
+}
+.tooltip {
+  z-index: 999;
+}
+.v-btn-tooltip {
+  background-color: rgb(var(--v-theme-grey-base));
+  color: rgb(var(--v-theme-white-base)) !important;
+  margin: 8px;
+  padding: 8px 12px;
+  border-radius: 4px;
+  max-width: 270px;
+  @extend .font-stamp-medium !optional;
+}
+.v-menu-tooltip {
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: center !important;
+  align-items: center !important;
+  padding: 4px 4px 4px 4px !important;
+  gap: 8px !important;
+  background-color: rgb(var(--v-theme-white-base)) !important;
+  border: 1px solid rgb(var(--v-theme-stroke-base)) !important;
+  border-radius: 8px !important;
+  font-family: 'Open Sans', sans-serif !important;
+  font-size: 12px !important;
+}

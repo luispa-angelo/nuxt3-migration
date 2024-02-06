@@ -3,14 +3,14 @@ import { ofetch } from 'ofetch';
 export default defineNuxtPlugin(() => {
   const router = useRouter();
   const path = router.currentRoute.value.path;
-  const runtimeConfig = useRuntimeConfig();
 
   globalThis.$fetch = ofetch.create({
-    baseURL: runtimeConfig.public.baseURL,
     onRequest({ options }) {
       try {
         const userInfo = JSON.parse(localStorage.getItem('userInfo') || '{}');
         const token = userInfo?.access_token;
+
+        options.headers = { Authorization: 'teste auth' };
 
         if (token) {
           if (!options.baseURL?.includes('https://vcx.utech.com.br')) {

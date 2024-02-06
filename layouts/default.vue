@@ -13,7 +13,7 @@
     </div>
   </v-app>
   <v-app v-else>
-    <Menu />
+    <!-- <Menu /> -->
     <v-main class="shape mt-3 pl-1 pr-1 pt-10">
       <v-container fluid class="pb-10">
         <slot />
@@ -23,16 +23,16 @@
 </template>
 
 <script>
-import Menu from '~/components/navigation/Menu';
+// import Menu from '~/components/navigation/Menu';
 
 export default {
+  components: {
+    // Menu,
+  },
   data() {
     return {
       maintenance: false,
     };
-  },
-  components: {
-    Menu,
   },
 };
 </script>

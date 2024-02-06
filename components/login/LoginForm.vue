@@ -5,31 +5,31 @@
     </v-card-title>
 
     <v-card-text class="text-left">
-      <v-form @submit.prevent="doLogin()" ref="form">
+      <v-form ref="form" @submit.prevent="doLogin()">
         <v-text-field
+          v-model="formData.user"
           type="email"
           label="Entre com o seu e-mail"
           placeholder="nome@omie.com.br"
           variant="outlined"
-          v-model="formData.user"
           color="primary"
         >
           <!-- 
           :error="$v.formData.user.$error"
           :error-messages="userErrors" 
         -->
-          <template v-slot:append-inner>
+          <template #append-inner>
             <v-icon color="primary" icon="mdi-email" style="opacity: 1" />
           </template>
         </v-text-field>
         <v-text-field
+          v-model="formData.password"
           :type="showPassword ? 'text' : 'password'"
           label="Digite sua senha"
           placeholder="***************"
           hint="Minimo de 8 caracteres"
           counter
           variant="outlined"
-          v-model="formData.password"
           color="primary"
         >
           <!-- 
@@ -37,33 +37,33 @@
           :error="$v.formData.password.$error"
           :error-messages="passwordErrors" 
         -->
-          <template v-slot:append-inner>
+          <template #append-inner>
             <v-icon
               color="primary"
               :icon="showPassword ? 'mdi-eye-outline' : 'mdi-eye-off-outline'"
-              @click="showPassword = !showPassword"
               style="opacity: 1"
+              @click="showPassword = !showPassword"
             />
           </template>
         </v-text-field>
         <v-text-field
           v-if="twoAuth"
+          v-model="formData.code"
           type="number"
           variant="outlined"
           label="Autenticação de 2 fatores"
           placeholder="Autenticação de 2 fatores"
-          v-model="formData.code"
           class="ajust-index"
         >
-          <v-icon slot="append" color="primary">mdi-lock</v-icon>
+          <v-icon color="primary">mdi-lock</v-icon>
         </v-text-field>
         <div v-if="multiTenant" class="d-flex justify-space-between">
           <v-select
+            v-model="formData.tenant_id"
             variant="outlined"
             :items="tenants"
-            item-text="name"
+            item-title="name"
             item-value="id"
-            v-model="formData.tenant_id"
           >
           </v-select>
         </div>
@@ -78,16 +78,16 @@
           </span>
           <v-checkbox
             v-if="!isProductionEnv"
-            label="Login local"
             v-model="isLocalLogin"
+            label="Login local"
             class="mt-0 pt-0 d-flex justify-end"
             density="compact"
             hide-details="auto"
           ></v-checkbox>
         </div>
         <div>
-          <v-btn type="submit" color="primary" block dark class="">
-            <v-icon class="spinner mr-1" v-if="isLoading">mdi-loading</v-icon>
+          <v-btn type="submit" color="primary" block class="w-100">
+            <v-icon v-if="isLoading" class="spinner mr-1">mdi-loading</v-icon>
             Entrar
           </v-btn>
         </div>
@@ -199,7 +199,7 @@ export default {
     async getPlatformToken() {
       let ret = null;
       if (this.token != null) {
-        ret = new Promise((resolve, reject) => {
+        ret = new Promise((resolve) => {
           resolve(this.token);
         });
       } else {
@@ -347,7 +347,8 @@ export default {
   text-align: justify;
 }
 .login-card {
-  width: 30vw !important;
+  width: 34vw !important;
   border-radius: 32px;
+  border: unset !important;
 }
 </style>

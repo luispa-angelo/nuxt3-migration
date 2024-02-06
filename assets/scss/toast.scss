@@ -1,0 +1,36 @@
+.container-toast-custom {
+  .Vue-Toastification__toast {
+    background-color: rgb(var(--v-theme-white-base));
+    color: inherit;
+    border: 1px solid rgb(var(--v-theme-stroke-base));
+    box-shadow: 1px 1px 2px 0px rgba(0, 0, 0, 0.1);
+    padding: 16px 28px 16px 16px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    position: relative;
+  }
+  .Vue-Toastification__close-button {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    padding-left: 0;
+    font-size: 27px;
+    color: rgb(var(--v-theme-grey-base));
+  }
+}
+.body-toast-custom {
+  .container-item-toast {
+    display: flex;
+    align-items: center;
+    i, div {
+      margin-right: 12px;
+    }
+    .container-item-message {
+      color: rgb(var(--v-theme-grey-base));
+      p {
+        line-height: 20px;
+      }
+    }
+  }
+}

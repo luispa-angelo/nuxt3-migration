@@ -4,7 +4,6 @@ import { createVuetify } from 'vuetify';
 
 import vuetifyOptions from '../vuetify.options';
 
-// handle vuetifyOptions theme colors
 const customLightColors = vuetifyOptions.theme.themes.light;
 const colorCombinations = {};
 

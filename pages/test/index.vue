@@ -1,6 +1,8 @@
 <template>
   <div class="form">
     <h1 class="text-h1">teste h1</h1>
+
+    <!-- {{ userInfo }} -->
     <span>
       <v-form v-model="valid">
         <v-container>
@@ -45,6 +47,9 @@
 </template>
 
 <script>
+// import { mapState } from 'pinia';
+// import { useUserStore } from '../../stores/user';
+
 export default {
   data: () => ({
     valid: false,
@@ -76,25 +81,28 @@ export default {
       },
     ],
   }),
+  // computed: {
+  //   ...mapState(useUserStore, {
+  //     userInfo: 'getUserInfo',
+  //   }),
+  // },
   async mounted() {
-    console.log('index');
-    const getResponse = await getList('https://api.npms.io/v2/search?q=vue');
-    console.log('get list', getResponse);
-
-    const getItemResponse = await getItem(
-      'https://api.npms.io/v2/search?q=vue'
-    );
-    console.log('get item', getItemResponse);
-
-    const postResponse = await updateData('https://httpbin.org/anything', {
-      teste: 'teste',
-    });
-    console.log('post', postResponse);
-
-    const putResponse = await createItem('https://httpbin.org/anything', {
-      teste: 'teste',
-    });
-    console.log('put', putResponse);
+    await apiFetch('/callTestPage');
+    // console.log('index');
+    // const getResponse = await getList('https://api.npms.io/v2/search?q=vue');
+    // console.log('get list', getResponse);
+    // const getItemResponse = await getItem(
+    //   'https://api.npms.io/v2/search?q=vue'
+    // );
+    // console.log('get item', getItemResponse);
+    // const postResponse = await updateData('https://httpbin.org/anything', {
+    //   teste: 'teste',
+    // });
+    // console.log('post', postResponse);
+    // const putResponse = await createItem('https://httpbin.org/anything', {
+    //   teste: 'teste',
+    // });
+    // console.log('put', putResponse);
   },
 };
 </script>

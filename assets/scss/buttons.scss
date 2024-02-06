@@ -1,17 +1,31 @@
+@use 'variables';
+
 // variables
+$font-size: 13px;
+$font-weight: 600;
+$letter-spacing: 0.1px;
+
 $padding: (
-  lg: 14px 62px 14px 62px,
+  lg: 14px 32px 14px 32px,
   md: 10px 24px 10px 24px,
   sm: 6px 22px 6px 22px,
 );
+
 $border: (
   default: 0.8px solid rgb(var(--v-theme-stroke-lighten5)),
-  focus: 0.8px solid rgb(var(--v-theme-stroke-base)),
+  focus: 0.8px solid rgb(var(--stroke-base)),
 );
+
 $shadow: (
   default: 1px 1px 2px rgba(0, 0, 0, 0.1),
-  focus: 0px 0px 0px 1px rgb(var(--v-theme-stroke-base)),
+  focus: 0px 0px 0px 1px rgb(var(--stroke-base)),
 );
+
+$radius: (
+  default: variables.$corner-medium,
+  icon: variables.$corner-circle,
+);
+
 $iconSize: (
   lg: 24px,
   default: 24px,
@@ -21,10 +35,30 @@ $iconLineHeight: (
   lg: 40px,
   default: 40px,
 );
+
 // mixins
+@mixin font-preset() {
+  font-size: $font-size;
+  font-weight: $font-weight;
+  letter-spacing: $letter-spacing;
+}
+@mixin icon-preset() {
+  &:first-child {
+    margin-right: 4px;
+  }
+  &:last-child {
+    margin-left: 4px;
+  }
+}
 @mixin btn-primary-preset($padding) {
+  @include font-preset();
   padding: $padding !important;
   box-shadow: map-get($shadow, 'default') !important;
+
+  &:not(.v-btn--rounded) {
+    border-radius: map-get($radius, 'default') !important;
+  }
+
   &:hover {
     background-color: rgb(var(--v-theme-primary-darken3)) !important;
   }
@@ -36,10 +70,16 @@ $iconLineHeight: (
   }
 }
 @mixin btn-secondary-preset($padding) {
+  @include font-preset();
   padding: $padding !important;
   border: map-get($border, 'default') !important;
   color: rgb(var(--v-theme-primary-base)) !important;
   box-shadow: map-get($shadow, 'default') !important;
+
+  &:not(.v-btn--rounded) {
+    border-radius: map-get($radius, 'default') !important;
+  }
+
   &:hover {
     color: rgb(var(--v-theme-primary-darken3)) !important;
   }
@@ -48,18 +88,23 @@ $iconLineHeight: (
     color: rgb(var(--v-theme-primary-darken2)) !important;
   }
   &:focus {
-    color: rgb(var(--v-theme-primary-base)) !important;
+    color: var(--v-theme-primary-base) !important;
     border: map-get($border, 'focus') !important;
     box-shadow: map-get($shadow, 'focus') !important;
   }
 }
-
 @mixin btn-tertiary-preset($padding) {
+  @include font-preset();
   padding: $padding !important;
   background-color: transparent !important;
   border: none !important;
   box-shadow: none !important;
   color: rgb(var(--v-theme-primary-base)) !important;
+
+  &:not(.v-btn--rounded) {
+    border-radius: map-get($radius, 'default') !important;
+  }
+
   &:hover {
     color: rgb(var(--v-theme-primary-darken3)) !important;
   }
@@ -72,92 +117,120 @@ $iconLineHeight: (
     color: rgb(var(--v-theme-primary-base)) !important;
   }
 }
+
+.v-btn:not(.v-btn--round).v-btn--size-default {
+  height: 40px;
+  min-width: 71px;
+}
+
 // primary
 // v-btn large
-.v-btn.v-size--large.primary:not(.v-btn--fab) {
+.v-btn.v-btn--size-large.bg-primary:not(.v-btn--fab) {
   @include btn-primary-preset(map-get($padding, lg));
   i {
     font-size: map-get($iconSize, 'lg');
     line-height: map-get($iconLineHeight, 'lg');
+    @include icon-preset();
   }
 }
 // v-btn medium
-.v-btn.v-size--default.primary:not(.v-btn--fab) {
+.v-btn.v-btn--size-default.bg-primary:not(.v-btn--fab) {
   @include btn-primary-preset(map-get($padding, md));
   i {
-    font-size: map-get($iconSize, 'md');
-    line-height: map-get($iconLineHeight, 'md');
+    font-size: map-get($iconSize, 'default');
+    line-height: map-get($iconLineHeight, 'default');
+    @include icon-preset();
   }
 }
 // v-btn small
-.v-btn.v-size--small.primary:not(.v-btn--fab) {
+.v-btn.v-btn--size-small.bg-primary:not(.v-btn--fab) {
   @include btn-primary-preset(map-get($padding, sm));
   i {
     font-size: map-get($iconSize, 'sm');
     line-height: map-get($iconLineHeight, 'sm');
+    @include icon-preset();
   }
 }
 // secondary
 // all
-.secondary {
+.bg-secondary {
   color: rgb(var(--v-theme-primary-base)) !important;
 }
 // v-btn large
-.v-btn.v-size--large.secondary:not(.v-btn--fab) {
+.v-btn.v-btn--size-large.bg-secondary:not(.v-btn--fab) {
   @include btn-secondary-preset(map-get($padding, lg));
   i {
     font-size: map-get($iconSize, 'lg') !important;
     line-height: map-get($iconLineHeight, 'lg') !important;
+    @include icon-preset();
   }
 }
 // v-btn medium
-.v-btn.v-size--default.secondary:not(.v-btn--fab) {
+.v-btn.v-btn--size-default.bg-secondary:not(.v-btn--fab) {
   @include btn-secondary-preset(map-get($padding, md));
   i {
-    font-size: map-get($iconSize, 'md') !important;
-    line-height: map-get($iconLineHeight, 'md') !important;
+    font-size: map-get($iconSize, 'default') !important;
+    line-height: map-get($iconLineHeight, 'default') !important;
+    @include icon-preset();
   }
 }
 // v-btn small
-.v-btn.v-size--small.secondary:not(.v-btn--fab) {
+.v-btn.v-btn--size-small.bg-secondary:not(.v-btn--fab) {
   @include btn-secondary-preset(map-get($padding, sm));
 }
 // tertiary
 // v-btn large
-.v-btn.v-size--large.tertiary:not(.v-btn--fab) {
+.v-btn.v-btn--size-large.bg-tertiary:not(.v-btn--fab) {
   @include btn-tertiary-preset(map-get($padding, lg));
   i {
     font-size: map-get($iconSize, 'lg');
     line-height: map-get($iconLineHeight, 'lg');
+    @include icon-preset();
   }
 }
 // v-btn medium
-.v-btn.v-size--default.tertiary:not(.v-btn--fab) {
+.v-btn.v-btn--size-default.bg-tertiary:not(.v-btn--fab) {
   @include btn-tertiary-preset(map-get($padding, md));
   i {
-    font-size: map-get($iconSize, 'md');
-    line-height: map-get($iconLineHeight, 'md');
+    font-size: map-get($iconSize, 'default');
+    line-height: map-get($iconLineHeight, 'default');
+    @include icon-preset();
   }
 }
 // v-btn small
-.v-btn.v-size--small.tertiary:not(.v-btn--fab) {
+.v-btn.v-btn--size-small.bg-tertiary:not(.v-btn--fab) {
   @include btn-tertiary-preset(map-get($padding, sm));
+  i {
+    font-size: map-get($iconSize, 'sm');
+    line-height: map-get($iconLineHeight, 'sm');
+    @include icon-preset();
+  }
 }
-// outhers
-.v-btn.v-size--large.v-btn--disabled {
+// disabled
+.v-btn.v-btn--size-large.v-btn--disabled:not(.v-btn--round) {
+  @include font-preset();
   padding: map-get($padding, lg) !important;
   i {
     font-size: map-get($iconSize, 'lg');
     line-height: map-get($iconLineHeight, 'lg');
+    @include icon-preset();
   }
 }
-.v-btn.v-size--default.v-btn--disabled {
+.v-btn.v-btn--size-default.v-btn--disabled:not(.v-btn--round) {
+  @include font-preset();
   padding: map-get($padding, md) !important;
   i {
-    font-size: map-get($iconSize, 'md');
-    line-height: map-get($iconLineHeight, 'md');
+    font-size: map-get($iconSize, 'default');
+    line-height: map-get($iconLineHeight, 'default');
+    @include icon-preset();
   }
 }
-.v-btn.v-size--small.v-btn--disabled {
+.v-btn.v-btn--size-small.v-btn--disabled:not(.v-btn--round) {
+  @include font-preset();
   padding: map-get($padding, sm) !important;
+}
+// icon
+.v-btn.v-btn--fab.v-btn--is-elevated {
+  box-shadow: map-get($shadow, 'default') !important;
+  border-radius: map-get($radius, 'icon') !important;
 }

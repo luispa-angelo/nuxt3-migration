@@ -3,8 +3,8 @@
   "extends": "./.nuxt/tsconfig.json",
   "compilerOptions": {
     "paths": {
-      "vite": ["node_modules/vite"]
+      "vite": ["./node_modules/vite"],
     },
-    "types": ["vue-sweetalert2"]
-  }
+    "types": ["vue-sweetalert2"],
+  },
 }

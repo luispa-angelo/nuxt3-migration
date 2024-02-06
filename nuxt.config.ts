@@ -1,12 +1,12 @@
+import vuetify, { transformAssetUrls } from 'vite-plugin-vuetify';
 import { configs } from './configs';
-import vuetify from 'vite-plugin-vuetify';
 
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
   modules: [
     async (options, nuxt) => {
       nuxt.hooks.hook('vite:extendConfig', (config) =>
-        // @ts-expect-error
+        // @ts-expect-error: Vuetify 3 default config
         config.plugins.push(
           vuetify({
             autoImport: true,
@@ -21,6 +21,11 @@ export default defineNuxtConfig({
     autoImports: ['defineStore', ['defineStore', 'definePiniaStore']],
   },
   vite: {
+    vue: {
+      template: {
+        transformAssetUrls,
+      },
+    },
     css: {
       preprocessorOptions: {
         scss: {
@@ -35,45 +40,7 @@ export default defineNuxtConfig({
   components: [
     '~/components',
     '~/components/general',
-    '~/components/icons',
-    { path: '~/components/dialog', prefix: 'dialog' },
-    { path: '~/components/alert', prefix: 'alert' },
-    { path: '~/components/analytics', prefix: 'analytics' },
-    { path: '~/components/inbox', prefix: 'inbox' },
-    { path: '~/components/request', prefix: 'request' },
-    { path: '~/components/calendar', prefix: 'calendar' },
-    { path: '~/components/partner', prefix: 'partner' },
-    { path: '~/components/company', prefix: 'company' },
-    { path: '~/components/contact', prefix: 'contact' },
     { path: '~/components/login', prefix: 'login' },
-    { path: '~/components/task', prefix: 'task' },
-    { path: '~/components/opportunity', prefix: 'opportunity' },
-    { path: '~/components/configure-business', prefix: 'business' },
-    { path: '~/components/configure-playbook', prefix: 'playbook' },
-    { path: '~/components/configure-pipeline', prefix: 'pipeline' },
-    { path: '~/components/configure-workflow', prefix: 'workflow' },
-    { path: '~/components/configure-task', prefix: 'type' },
-    { path: '~/components/configure-functional-area', prefix: 'area' },
-    { path: '~/components/configure-role', prefix: 'role' },
-    { path: '~/components/configure-permission', prefix: 'permission' },
-    {
-      path: '~/components/configure-permission-group',
-      prefix: 'permissionGroup',
-    },
-    { path: '~/components/configure-user', prefix: 'user' },
-    { path: '~/components/configure-team', prefix: 'team' },
-    { path: '~/components/configure-product', prefix: 'product' },
-    { path: '~/components/configure-group', prefix: 'group' },
-    { path: '~/components/configure-template', prefix: 'template' },
-    { path: '~/components/configure-sorter', prefix: 'sorter' },
-    { path: '~/components/configure-tenant', prefix: 'tenant' },
-    { path: '~/components/channel', prefix: 'channel' },
-    { path: '~/components/capability', prefix: 'capability' },
-    {
-      path: '~/components/configure-support-entities',
-      prefix: 'supportEntities',
-    },
-    { path: '~/components/support-menu', prefix: 'supportMenu' },
   ],
   imports: { dirs: ['./stores'] },
   css: ['vuetify/lib/styles/main.sass', '@/assets/scss/main.scss'],

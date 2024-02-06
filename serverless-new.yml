@@ -1,0 +1,126 @@
+service: ops-crm-static
+variablesResolutionMode: 20210219
+frameworkVersion: ^2.62.0
+provider:
+  name: aws
+  runtime: nodejs14.x
+  region: sa-east-1
+  profile: default
+  memorySize: 256 # optional, in MB, default is 1024
+  stage: dev
+
+plugins:
+  - serverless-finch
+  - serverless-certificate-creator
+  - serverless-cloudfront-invalidate
+custom:
+  stage: ${opt:stage, self:provider.stage}
+  stageConfig: ${file(resources/config.yml):${self:custom.stage}}
+  siteName: ${self:custom.stageConfig.domainName}
+  hostZoneId: Z04997572ILSV96LC81BS
+  certInfoFileName: cert-info.yml
+
+  client:
+    bucketName: ${self:custom.siteName}
+    distributionFolder: dist
+
+  # customCertificate:
+  #   certificateName: ${self:custom.siteName}
+  #   hostedZoneName: crm.omie.com.br
+  #   #hostedZoneId: ${self:custom.hostZoneId}
+  #   region: "us-east-1" # required for using CloudFront with AWS Certificate Manager
+  #   # writeCertInfoToFile: true
+  #   # certInfoFileName: ${self:custom.certInfoFileName}
+
+  cloudfrontInvalidate:
+    #- distributionId: "CLOUDFRONT_DIST_ID" #conditional, distributionId or distributionIdKey is required.
+    - distributionId: ${self:custom.stageConfig.cloudfrontId} #conditional, distributionId or distributionIdKey is required.
+    #- distributionIdKey: ${output:CDNDistributionId} #conditional, distributionId or distributionIdKey is required.
+      autoInvalidate: false # Can be set to false to avoid automatic invalidation after the deployment. Useful if you want to manually trigger the invalidation later. Defaults to true.
+      items: # one or more paths required
+        - "/*"
+      #stage: dsv  # conditional, the stage that this cloudfront invalidation should be created
+      stage: ${self:provider.stage}
+resources:
+  Resources:
+    WebAppS3Bucket:
+      Type: AWS::S3::Bucket
+      Properties:
+        AccessControl: PublicRead
+        BucketName: ${self:custom.client.bucketName}
+        WebsiteConfiguration:
+          IndexDocument: index.html
+          ErrorDocument: error.html
+
+    # specifying the policies to make sure all files inside the Bucket are avaialble
+    WebAppS3BucketPolicy:
+      Type: AWS::S3::BucketPolicy
+      Properties:
+        Bucket:
+          Ref: WebAppS3Bucket
+        PolicyDocument:
+          Statement:
+            - Sid: PublicReadGetObject
+              Effect: Allow
+              Principal: "*"
+              Action:
+                - s3:GetObject
+              Resource: arn:aws:s3:::${self:custom.client.bucketName}/*
+    WebAppCloudFrontDistribution:
+      Type: AWS::CloudFront::Distribution
+      DependsOn:
+        - WebAppS3Bucket
+      Properties:
+        DistributionConfig:
+          Origins:
+            - DomainName: ${self:custom.siteName}.s3-website-${self:provider.region}.amazonaws.com
+              Id: WebApp
+              CustomOriginConfig:
+                HTTPPort: 80
+                HTTPSPort: 443
+                OriginProtocolPolicy: http-only
+          Enabled: "true"
+          HttpVersion: "http2"
+          DefaultRootObject: index.html
+          CustomErrorResponses:
+            - ErrorCode: 404
+              ResponseCode: 200
+              #ResponsePagePath: /404.html
+              ResponsePagePath: /index.html
+          Aliases:
+            #- ${self:custom.domainName.${self:custom.currentStage}}
+            - ${self:custom.siteName}
+          DefaultCacheBehavior:
+            AllowedMethods:
+              - GET
+              - HEAD
+            Compress: true
+            TargetOriginId: WebApp
+            ForwardedValues:
+              QueryString: "true"
+              Cookies:
+                Forward: none
+            ViewerProtocolPolicy: redirect-to-https
+          ViewerCertificate:
+            #AcmCertificateArn: ${file(${self:custom.certInfoFileName}):CertificateArn}
+            SslSupportMethod: sni-only
+            AcmCertificateArn: ${self:custom.stageConfig.AcmCertificateArn}
+    WebsiteDNSName:
+      Type: AWS::Route53::RecordSetGroup
+      Properties:
+        HostedZoneId: ${self:custom.hostZoneId}
+        RecordSets:
+          - Name: ${self:custom.siteName}
+            Type: A
+            AliasTarget:
+              HostedZoneId: Z2FDTNDATAQYW2 ##cloudfront zone id
+              DNSName:
+                Fn::GetAtt:
+                  - WebAppCloudFrontDistribution
+                  - DomainName
+              #DNSName: ${self:custom.siteName}.s3-website-${self:provider.region}.amazonaws.com
+              EvaluateTargetHealth: false
+# Outputs:
+#   WebAppCloudFrontDistributionOutput:
+#     Value:
+#       'Fn::GetAtt': [WebAppCloudFrontDistribution, DomainName]

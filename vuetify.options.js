@@ -12,6 +12,7 @@ const customLightColors = {
   },
   red: {
     base: '#ED2121',
+    lighten3: '#FFC0C0',
     lighten4: '#FBD6D5',
     darken2: '#B82927',
   },
@@ -43,8 +44,12 @@ const customLightColors = {
   green: {
     base: '#008C1F',
     lighten4: '#EAF3DD',
+    lighten2: '#BCE2B5',   
     lighten3: '#CCE8D2',
     darken2: '#006E18',
+  },
+  yellow: {
+    base: '#EFD02C'
   },
   orange: {
     base: '#E36822',
